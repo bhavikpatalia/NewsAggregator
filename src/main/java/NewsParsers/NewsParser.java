@@ -1,15 +1,17 @@
+package NewsParsers;
 
-
-
+import Responses.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parser {
+@Component
+public class NewsParser {
 
-    public List<Response> getParsedNews(JSONArray jsonArray){
+    public  List<Response> getParsedNews(JSONArray jsonArray){
 
         List<Response> news = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++){
@@ -21,7 +23,6 @@ public class Parser {
             response.setLink(object.get("link").toString());
             news.add(response);
         }
-
         return news;
     }
 }
