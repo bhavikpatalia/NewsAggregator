@@ -18,7 +18,7 @@ public class SportsNewsGenerator {
 
         List<Response> responses = new ArrayList<>();
         try {
-            JSONArray cnbc = HttpURLConnection.sendGET(CNN.SPORTS.getAction());
+            JSONArray cnn = HttpURLConnection.sendGET(CNN.SPORTS.getAction());
             JSONArray hindustanTimes = HttpURLConnection.sendGET(HindustanTimes.SPORTS.getAction());
             JSONArray huffPost = HttpURLConnection.sendGET(Huffpost.SPORTS.getAction());
             JSONArray indianExpress = HttpURLConnection.sendGET(IndianExpress.SPORTS.getAction());
@@ -30,6 +30,7 @@ public class SportsNewsGenerator {
             JSONArray theHindu = HttpURLConnection.sendGET(TheHindu.SPORTS.getAction());
             JSONArray timesOfIndia = HttpURLConnection.sendGET(TimesOfIndia.SPORTS.getAction());
 
+            getResonse(cnn, responses);
             getResonse(timesOfIndia, responses);
             getResonse(theHindu, responses);
             getResonse(theGuardian, responses);
