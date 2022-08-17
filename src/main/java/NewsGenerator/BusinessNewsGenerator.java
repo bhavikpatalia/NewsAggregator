@@ -6,12 +6,13 @@ import NewsSources.*;
 import Responses.Response;
 import org.json.JSONArray;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessNewsGenerator {
 
-    public List<Response> getAllHealthNews(){
+    public List<Response> getAllBusinessNews(){
 
         List<Response> responses = new ArrayList<>();
         try {
@@ -47,7 +48,7 @@ public class BusinessNewsGenerator {
         return responses;
     }
 
-    private void getResonse(JSONArray jsonArray, List<Response> responses) {
+    private void getResonse(JSONArray jsonArray, List<Response> responses) throws ParseException {
         List<Response> responseList = NewsParser.getParsedNews(jsonArray);
         responses.addAll(responseList);
     }

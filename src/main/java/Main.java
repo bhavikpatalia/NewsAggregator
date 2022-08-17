@@ -1,29 +1,30 @@
 
 import GenerateResponse.HttpURLConnection;
-import NewsGenerator.SportsNewsGenerator;
+import NewsGenerator.*;
 import NewsParsers.NewsParser;
-import NewsSources.TheGuardian;
+import NewsSources.*;
 import Responses.Response;
 import org.json.JSONArray;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 public class Main {
 
-    NewsParser newsParser = new NewsParser();
-    public static void main(String[] args){
+    public static void main(String[] args) throws ParseException {
         JSONArray response = null;
         try {
-            response = HttpURLConnection.sendGET(TheGuardian.SCIENCE.getAction());
+            response = HttpURLConnection.sendGET(TheHindu.SCIENCE.getAction());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
         Main main = new Main();
-        SportsNewsGenerator sportsNewsGenerator = new SportsNewsGenerator();
-        List<Response> parsedNews = sportsNewsGenerator.getAllSportsNews();
+        ScienceNewsGenerator scienceNewsGenerator = new ScienceNewsGenerator();
+//        List<Response> parsedNews = NewsParser.getParsedNews(response);
+        List<Response> parsedNews = scienceNewsGenerator.getAllScienceNews();
         System.out.println(parsedNews);
     }
 }

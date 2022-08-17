@@ -6,6 +6,7 @@ import NewsSources.*;
 import Responses.Response;
 import org.json.JSONArray;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class HealthNewsGenerator {
         List<Response> responses = new ArrayList<>();
         try {
             JSONArray bbc = HttpURLConnection.sendGET(BBC.HEALTH.getAction());
-//            JSONArray hindustanTimes = HttpURLConnection.sendGET(HindustanTimes.HEALTH.getAction());
+            JSONArray hindustanTimes = HttpURLConnection.sendGET(HindustanTimes.HEALTH.getAction());
             JSONArray huffPost = HttpURLConnection.sendGET(Huffpost.HEALTH.getAction());
             JSONArray indianExpress = HttpURLConnection.sendGET(IndianExpress.HEALTH.getAction());
             JSONArray cnbc = HttpURLConnection.sendGET(CNBC.HEALTH.getAction());
@@ -33,7 +34,7 @@ public class HealthNewsGenerator {
             getResonse(ndtv, responses);
             getResonse(indianExpress, responses);
             getResonse(huffPost, responses);
-//            getResonse(hindustanTimes, responses);
+            getResonse(hindustanTimes, responses);
 
         } catch (Exception e){
             // Will handle it
@@ -41,7 +42,7 @@ public class HealthNewsGenerator {
         return responses;
     }
 
-    private void getResonse(JSONArray jsonArray, List<Response> responses) {
+    private void getResonse(JSONArray jsonArray, List<Response> responses) throws ParseException {
         List<Response> responseList = NewsParser.getParsedNews(jsonArray);
         responses.addAll(responseList);
     }

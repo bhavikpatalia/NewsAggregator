@@ -41,16 +41,19 @@ public class HttpURLConnection {
                 response.append(inputLine);
             }
             in.close();
-
 //            System.out.println(response.toString());
         } else {
             System.out.println("GET request not worked");
+            return null;
         }
 
-        JSONArray json = XML.toJSONObject(response.toString()).getJSONObject("rss").getJSONObject("channel").getJSONArray("item");;
+        try {
+            JSONArray json = XML.toJSONObject(response.toString()).getJSONObject("rss").getJSONObject("channel").getJSONArray("item");
+            return json;
+        }catch (Exception e){
+            return new JSONArray();
+        }
 //        System.out.println(json);
-
-        return json;
 //        JSONObject jsonArray = json.getJSONObject(1);
 //
 //

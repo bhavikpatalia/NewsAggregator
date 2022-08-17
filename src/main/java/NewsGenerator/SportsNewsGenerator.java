@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class SportsNewsGenerator {
         return responses;
     }
 
-    private void getResonse(JSONArray jsonArray, List<Response> responses) {
+    private void getResonse(JSONArray jsonArray, List<Response> responses) throws ParseException {
         List<Response> responseList = NewsParser.getParsedNews(jsonArray);
         responses.addAll(responseList);
     }

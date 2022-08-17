@@ -17,5 +17,5 @@ public class Response {
 
     private String description;
 
-    private String pubTime;
+    private Long pubTime;
 }

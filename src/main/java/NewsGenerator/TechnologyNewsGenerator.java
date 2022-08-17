@@ -6,6 +6,7 @@ import NewsSources.*;
 import Responses.Response;
 import org.json.JSONArray;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class TechnologyNewsGenerator {
             JSONArray cnn = HttpURLConnection.sendGET(CNN.TECHNOLOGY.getAction());
             JSONArray cnbc = HttpURLConnection.sendGET(CNBC.TECHNOLOGY.getAction());
             JSONArray hindustanTimes = HttpURLConnection.sendGET(HindustanTimes.TECHNOLOGY.getAction());
-//            JSONArray huffPost = HttpURLConnection.sendGET(Huffpost.TECHNOLOGY.getAction());
+            JSONArray huffPost = HttpURLConnection.sendGET(Huffpost.TECHNOLOGY.getAction());
             JSONArray indianExpress = HttpURLConnection.sendGET(IndianExpress.TECHNOLOGY.getAction());
             JSONArray ndtv = HttpURLConnection.sendGET(NDTV.TECHNOLOGY.getAction());
             JSONArray news18 = HttpURLConnection.sendGET(News18.TECHNOLOGY.getAction());
@@ -36,7 +37,7 @@ public class TechnologyNewsGenerator {
             getResonse(ndtv, responses);
             getResonse(cnbc, responses);
             getResonse(indianExpress, responses);
-//            getResonse(huffPost, responses);
+            getResonse(huffPost, responses);
             getResonse(hindustanTimes, responses);
 
         } catch (Exception e){
@@ -45,7 +46,7 @@ public class TechnologyNewsGenerator {
         return responses;
     }
 
-    private void getResonse(JSONArray jsonArray, List<Response> responses) {
+    private void getResonse(JSONArray jsonArray, List<Response> responses) throws ParseException {
         List<Response> responseList = NewsParser.getParsedNews(jsonArray);
         responses.addAll(responseList);
     }
