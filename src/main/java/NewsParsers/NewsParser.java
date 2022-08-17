@@ -20,15 +20,16 @@ public class NewsParser {
         for(int i = 0; i < jsonArray.length(); i++){
             JSONObject object = jsonArray.getJSONObject(i);
             Response response = new Response();
-            if(object.has("title")) response.setTitle(object.get("title").toString());
+            if(object.has("title")) {
+                if(object.get("title").toString().isEmpty()){
+                    continue;
+                }
+                response.setTitle(object.get("title").toString());
+            }
             if(object.has("description")) response.setDescription(object.get("description").toString().replaceAll("<[^>]*>", ""));
             if(object.has("pubDate")){
                 String time = object.get("pubDate").toString();
-                if(time.contains("GMT")){
-                    response.setPubTime(getTimeForNonT(time));
-                }
-                else if(time.charAt(10) == 'T') response.setPubTime(getTimeForT(time));
-                else response.setPubTime(getTimeForNonT(time));
+                response.setPubTime(getTime(time));
             }
             if(object.has("link")) response.setLink(object.get("link").toString());
             news.add(response);
@@ -36,12 +37,16 @@ public class NewsParser {
         return news;
     }
 
-    public static Long getTimeForNonT(String time) throws ParseException {
-        Date parsedDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").parse(time);
-        return parsedDate.getTime();
+    public static Long getTime(String time) throws ParseException {
+        if(time.charAt(10) == 'T'){
+            Date parsedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SS:SS").parse(time);
+            return parsedDate.getTime();
+        }
+        else {
+            Date parsedDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").parse(time);
+            return parsedDate.getTime();
+        }
+
     }
-    public static Long getTimeForT(String time) throws ParseException {
-        Date parsedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SS:SS").parse(time);
-        return parsedDate.getTime();
-    }
+
 }
