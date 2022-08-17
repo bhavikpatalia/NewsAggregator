@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class NewsParser {
 
-    public  List<Response> getParsedNews(JSONArray jsonArray){
+    public  static List<Response> getParsedNews(JSONArray jsonArray){
 
         List<Response> news = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++){
