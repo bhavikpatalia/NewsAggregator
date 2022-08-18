@@ -38,15 +38,14 @@ public class NewsParser {
     }
 
     public static Long getTime(String time) throws ParseException {
+        Date parsedDate;
         if(time.charAt(10) == 'T'){
-            Date parsedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SS:SS").parse(time);
-            return parsedDate.getTime();
+            parsedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SS:SS").parse(time);
         }
         else {
-            Date parsedDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").parse(time);
-            return parsedDate.getTime();
+            parsedDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").parse(time);
         }
-
+        return parsedDate.getTime();
     }
 
 }
