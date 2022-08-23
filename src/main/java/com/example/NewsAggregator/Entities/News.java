@@ -18,23 +18,24 @@ public class News {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long newsId;
 
-    @Column(name = "Title")
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "Description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "PublishTime")
+    @Column(name = "publishTime")
     private Long time;
 
-    @Column(name = "Link")
+    @Column(name = "link")
     private String link;
 
-    @Column(name = "ClusterId")
+    @Column(name = "clusterId")
     private Long clusterId;
 
-    @Column(name = "Category")
+    @Column(name = "category")
     private NewsCategory newsCategory;
 }
