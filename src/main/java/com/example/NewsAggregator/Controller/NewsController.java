@@ -24,41 +24,41 @@ public class NewsController {
     @ResponseBody
     public ResponseEntity<Object> getAllScienceNews()
     {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllSportsNews());
+        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllScienceNews());
     }
 
     @RequestMapping(value = "/getHealthNews",  headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<Object> getAllHealthNews()
     {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllSportsNews());
+        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllHealthNews());
     }
 
     @RequestMapping(value = "/getAutoNews",  headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<Object> getAllAutoNews()
     {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllSportsNews());
+        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllAutoNews());
     }
 
     @RequestMapping(value = "/getEntertainmentNews",  headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<Object> getAllEntertainmentNews()
     {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllSportsNews());
+        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllEntertainmentNews());
     }
 
     @RequestMapping(value = "/getBusinessNews",  headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<Object> getAllBusinessNews()
     {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllSportsNews());
+        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllBusinessNews());
     }
 
     @RequestMapping(value = "/getTechnologyNews",  headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<Object> getAllTechnologyNews()
     {
-        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllSportsNews());
+        return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, newsServiceImplForCSV.getAllTechnologyNews());
     }
 }
