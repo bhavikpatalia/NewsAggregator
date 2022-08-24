@@ -1,4 +1,4 @@
-package com.example.NewsAggregator.NewsGenerator;
+package com.example.NewsAggregator.NewsGenerators;
 
 import com.example.NewsAggregator.GenerateResponse.HttpURLConnection;
 import com.example.NewsAggregator.NewsParsers.NewsParser;

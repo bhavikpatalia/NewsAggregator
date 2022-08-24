@@ -1,4 +1,4 @@
-package com.example.NewsAggregator.NewsGenerator;
+package com.example.NewsAggregator.NewsGenerators;
 
 import com.example.NewsAggregator.GenerateResponse.HttpURLConnection;
 import com.example.NewsAggregator.NewsParsers.NewsParser;
@@ -10,9 +10,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutoNewsGenerator {
+public class NewsGenerator {
 
-    public List<Response> getAllAutoNews(){
+    public List<Response> getAllNews(){
 
         List<Response> responses = new ArrayList<>();
         try {

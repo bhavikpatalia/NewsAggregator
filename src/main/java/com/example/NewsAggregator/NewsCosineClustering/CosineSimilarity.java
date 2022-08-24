@@ -1,4 +1,4 @@
-package com.example.NewsAggregator.NewsClustering;
+package com.example.NewsAggregator.NewsCosineClustering;
 
 import java.util.HashSet;
 import java.util.Map;

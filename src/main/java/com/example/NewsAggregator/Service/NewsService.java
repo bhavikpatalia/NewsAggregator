@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface NewsService {
 
-    News saveNews(Response response, NewsCategory category);
-
-    List<Response> fetchNewsList();
-
-    void deleteNewsById(Long newsId);
-
-    void deleteAll();
-
-    void saveAll(List<Response> responses, NewsCategory category);
+//    News saveNews(Response response, NewsCategory category);
+//
+//    List<Response> fetchNewsList();
+//
+//    void deleteNewsById(Long newsId);
+//
+//    void deleteAll();
+//
+//    void saveAll(List<Response> responses, NewsCategory category);
 }

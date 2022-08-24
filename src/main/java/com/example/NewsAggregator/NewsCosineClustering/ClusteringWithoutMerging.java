@@ -1,17 +1,31 @@
-package com.example.NewsAggregator.NewsClustering;
+package com.example.NewsAggregator.NewsCosineClustering;
 
 import com.example.NewsAggregator.Responses.Response;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.util.*;
 
 import static com.example.NewsAggregator.NewsDataStorage.ReadFromCSVFiles.getDataFromCSVFile;
 
+@Slf4j
 public class ClusteringWithoutMerging {
 
-    public static void main(String[] args){
-        List<Response> dataFromCSVFile = getDataFromCSVFile("/Users/vivek.me/NewsAggregator/Technology.csv");
+    StopWords stopWords = new StopWords();
+
+    // Using Stemmer Algo
+    Stemmer stemmer = new Stemmer();
+
+    // Using StemmedWord Mapping file
+    StemmedWords stemmedWords = new StemmedWords();
+
+    public List<List<Response>> clusteringWithoutMerging(String fileName) throws IOException {
+        List<Response> dataFromCSVFile = getDataFromCSVFile("/Users/vivek.me/NewsAggregator/" + fileName + ".csv");
 
         Map<Integer, Map<String, Integer>> wordToCountMapping = new HashMap<>();
+
+        stopWords.generateStopWordsRegex();
+        stemmedWords.mapStemmedWordtoRootWord();
 
         Map<String, Integer> globalFreq  = new HashMap<>();
         int count = 1;
@@ -46,8 +60,7 @@ public class ClusteringWithoutMerging {
 
         Map<Integer, Set<Integer>> cluster = new HashMap<>();
         for(int i = 1; i < 10; i++){
-            List<Integer> grps = differentGrps.stream().toList();
-            findSimilarity(grps, differentGrps, score, cluster);
+            findSimilarity(differentGrps.stream().toList(), score, cluster);
         }
 
         List<List<Integer>> grps = new ArrayList<>();
@@ -59,28 +72,21 @@ public class ClusteringWithoutMerging {
                 grps.add(newGrp);
             }
         }
-        for (List<Integer> list : grps){
-            List<Response> responses = new ArrayList<>();
-            if(list.size() == 1)continue;
-            for(Integer integer : list){
-                System.out.print(integer + " ");
-                responses.add(dataFromCSVFile.get(integer-1));
-            }
-            System.out.println(responses);
-        }
+
+        return getSimilarNews(dataFromCSVFile, grps, count);
     }
 
-    private static Double log2(double v) {
+    private  Double log2(double v) {
         return Math.log(v)/Math.log(2);
     }
 
-    private static void findSimilarity(List<Integer> grps, Set<Integer> differentGrps, Map<Integer, Map<String, Double>> wordToCountMapping, Map<Integer, Set<Integer>> cluster) {
+    private  void findSimilarity(List<Integer> grps, Map<Integer, Map<String, Double>> wordToCountMapping, Map<Integer, Set<Integer>> cluster) {
 
         for(int i = 0; i < grps.size(); i++){
             for(int j = i+1; j < grps.size(); j++){
 
                 Double cosineSimilarity = CosineSimilarity.cosineSimilarity(wordToCountMapping.get(grps.get(i)), wordToCountMapping.get(grps.get(j)));
-                if(cosineSimilarity >= 0.72){
+                if(cosineSimilarity >= 0.60){
                     if(cluster.containsKey(grps.get(i))){
                         Set<Integer> list = cluster.get(grps.get(i));
                         list.add(grps.get(j));
@@ -94,26 +100,30 @@ public class ClusteringWithoutMerging {
         }
     }
 
-    public static Map<String, Integer> getStringToCountMapping(Response response, Map<String, Integer> globalFreq){
+    public  Map<String, Integer> getStringToCountMapping(Response response, Map<String, Integer> globalFreq){
         Map<String, Integer> vector
                 = new HashMap<>();
 
-        String document = response.getTitle() + response.getTitle() + response.getDescription();
-        String[] newStr = document.split("\\s+");
+        String[] newStr = ((response.getTitle() + response.getTitle() + response.getDescription())
+                .toLowerCase().replaceAll(stopWords.getStopWordsRegex(), ""))
+                .replaceAll("\\p{Punct}", "")
+                .split("\\s+");
 
         Set<String> included = new HashSet<>();
         for (String str : newStr) {
-            if (vector.containsKey(str)) vector.put(str, vector.get(str) + 1);
-            else vector.put(str, 1);
-            if(globalFreq.containsKey(str) && !included.contains(str)) globalFreq.put(str, globalFreq.get(str) + 1);
-            else globalFreq.put(str, 1);
-            included.add(str);
+          //String rootWord = stemmer.getRootWord(str); // Using Stemmer Class (Porter Stemming Algo)
+            String rootWord = stemmedWords.getRootWord(str); // Using StemmedWord File
+            if (vector.containsKey(rootWord)) vector.put(rootWord, vector.get(rootWord) + 1);
+            else vector.put(rootWord, 1);
+            if(globalFreq.containsKey(rootWord) && !included.contains(rootWord)) globalFreq.put(rootWord, globalFreq.get(rootWord) + 1);
+            else globalFreq.put(rootWord, 1);
+            included.add(rootWord);
         }
 
         return vector;
     }
 
-    private static void newsMerging(int i, List<Integer> grp, Set<Integer> visited, Map<Integer, Set<Integer>> cluster) {
+    private  void newsMerging(int i, List<Integer> grp, Set<Integer> visited, Map<Integer, Set<Integer>> cluster) {
         if(visited.contains(i))return;
 
         visited.add(i);
@@ -123,7 +133,30 @@ public class ClusteringWithoutMerging {
         for(Integer integer : cluster.get(i)){
             newsMerging(integer, grp, visited, cluster);
         }
+    }
 
+    private List<List<Response>> getSimilarNews(List<Response> dataFromCSVFile, List<List<Integer>> grps, int count) {
+        Set<Integer> visited = new HashSet<>();
+
+        List<List<Response>> similarNews = new ArrayList<>();
+
+        for (List<Integer> list : grps){
+            List<Response> responses = new ArrayList<>();
+            for(Integer integer : list){
+                visited.add(integer);
+                responses.add(dataFromCSVFile.get(integer-1));
+            }
+            similarNews.add(responses);
+        }
+
+        for(int i = 1; i < count; i++){
+            if(!visited.contains(i)){
+                List<Response> responses = new ArrayList<>();
+                responses.add(dataFromCSVFile.get(i-1));
+                similarNews.add(responses);
+            }
+        }
+        return similarNews;
     }
 }
 
