@@ -1,5 +1,7 @@
 
+
 import com.example.NewsAggregator.GenerateResponse.HttpURLConnection;
+import com.example.NewsAggregator.KMeanClustering.ClusterNews;
 import com.example.NewsAggregator.NewsSources.*;
 import com.example.NewsAggregator.Responses.Response;
 import com.opencsv.CSVReader;
@@ -22,7 +24,7 @@ public class Main {
     public Main() throws FileNotFoundException, UnsupportedEncodingException {
     }
 
-    public static void main(String[] args) throws ParseException, IOException {
+    public static void main(String[] args) throws Exception {
         JSONArray response = null;
         try {
             response = HttpURLConnection.sendGET(TheHindu.SCIENCE.getAction());
@@ -32,7 +34,9 @@ public class Main {
             e.printStackTrace();
         }
         Main main = new Main();
-        List<Response> dataFromCSVFile = getDataFromCSVFile("/Users/vivek.me/NewsAggregator/Science.csv");
+        List<Response> dataFromCSVFile = getDataFromCSVFile("/Users/bhavik.pa/Desktop/NewsAggregator/Science.csv");
+        ClusterNews clusterMaker = new ClusterNews(dataFromCSVFile);
+        clusterMaker.cluster(dataFromCSVFile.size()/2);
 
     }
 

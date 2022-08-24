@@ -1,4 +1,4 @@
-package KMeanClustering;
+package com.example.NewsAggregator.KMeanClustering;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,7 +34,7 @@ public final class StopWords {
 
         try {
 
-            String fullName = new String("/Users/bhavik.pa/Downloads/NewsAggregator /src/main/java/KMeanClustering/stopwords.txt");
+            String fullName = new String("/Users/bhavik.pa/Desktop/NewsAggregator/src/main/java/com/example/NewsAggregator/KMeanClustering/stopwords.txt");
             _file = new BufferedReader(new FileReader(fullName));
             if (_file == null) {
                 // Failed to open.

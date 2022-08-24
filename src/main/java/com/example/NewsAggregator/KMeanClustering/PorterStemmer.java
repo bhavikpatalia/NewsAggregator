@@ -1,4 +1,4 @@
-package KMeanClustering;/* This file is part of DocumentCluster, a program for clustering text
+package com.example.NewsAggregator.KMeanClustering;/* This file is part of DocumentCluster, a program for clustering text
    documents based on similarity. To use, specify the number of clusters
    followed by the documents, which must be located in the data subdirectory.
    Stopwords are eliminated by filtering the document contents against

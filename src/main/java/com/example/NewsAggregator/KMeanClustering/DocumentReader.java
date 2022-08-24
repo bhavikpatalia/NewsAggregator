@@ -1,4 +1,4 @@
-package KMeanClustering;
+package com.example.NewsAggregator.KMeanClustering;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

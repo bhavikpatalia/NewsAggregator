@@ -1,4 +1,6 @@
-package KMeanClustering;
+package com.example.NewsAggregator.KMeanClustering;
+
+import com.example.NewsAggregator.Responses.Response;
 
 import java.util.*;
 
@@ -6,14 +8,19 @@ public class ClusterNews {
 
     public ArrayList<String> news;
     public ArrayList<NewsWordData> wordMapping;
-
+    public List<Response> responsenews;
     HashSet<Integer> notClustered;
-    public ClusterNews(ArrayList<String> news) throws Exception
+    public ClusterNews(List<Response> responsenews) throws Exception
     {
-        this.news=news;
-        CorpusData data = new CorpusData(news);
+        this.responsenews=responsenews;
+        ArrayList<String> temp = new ArrayList<String>();
+        for(int i=0;i<responsenews.size();i++){
+            temp.add(responsenews.get(i).getTitle()+responsenews.get(i).getTitle()+responsenews.get(i).getDescription());
+        }
+        this.news=temp;
+        CorpusData data = new CorpusData(this.news);
         wordMapping = data.getNewswordfreq();
-        notClustered = new HashSet<Integer>();
+
 
 
     }
@@ -66,7 +73,17 @@ public class ClusterNews {
                 result.put(i,temp);
             }
         }
+        List < List<Response> > fin = new ArrayList<>();
+        for (Map.Entry<Integer,ArrayList<Integer>> entry : result.entrySet()){
+            ArrayList<Integer> list = entry.getValue();
+            List<Response> responses = new ArrayList<Response>();
+            for(int i = 0; i < list.size(); i++){
+                responses.add(this.responsenews.get(list.get(i)));
+            }
+            fin.add(responses);
+        }
         return result;
+
     }
     NewsWordData findCentroid(ArrayList<NewsWordData> news){
         HashMap<String,Integer> mp = new HashMap<String,Integer>();
