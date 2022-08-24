@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum CSVFiles {
 
-    SPORTS("/Users/vivek.me/NewsAggregator/Sports.csv"),
-    TECHNOLOGY("/Users/vivek.me/NewsAggregator/Technology.csv"),
-    ENTERTAINMENT("/Users/vivek.me/NewsAggregator/Entertainment.csv"),
-    HEALTH("/Users/vivek.me/NewsAggregator/Health.csv"),
-    BUSINESS("/Users/vivek.me/NewsAggregator/Business.csv"),
-    SCIENCE("/Users/vivek.me/NewsAggregator/Science.csv"),
-    AUTO("/Users/vivek.me/NewsAggregator/Auto.csv");
+    SPORTS("Sports.csv"),
+    TECHNOLOGY("Technology.csv"),
+    ENTERTAINMENT("Entertainment.csv"),
+    HEALTH("Health.csv"),
+    BUSINESS("Business.csv"),
+    SCIENCE("Science.csv"),
+    AUTO("Auto.csv");
 
     private String action;
 

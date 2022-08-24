@@ -16,7 +16,7 @@ public class StemmedWords {
 
     public void mapStemmedWordtoRootWord() throws IOException {
 
-        List<String> stopWordsList = Files.readAllLines(Paths.get("/Users/vivek.me/NewsAggregator/src/main/java/com/example/NewsAggregator/StemmedWords.txt"));
+        List<String> stopWordsList = Files.readAllLines(Paths.get("src/main/java/com/example/NewsAggregator/StemmedWords.txt"));
         for(String string : stopWordsList){
             String[] newStr = string.split(":");
             stemmedWordMap.put(newStr[0], newStr[1]);

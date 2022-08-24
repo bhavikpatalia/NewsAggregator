@@ -16,7 +16,7 @@ public class StopWords {
 
     public void generateStopWordsRegex(){
         try {
-            List<String> stopWordsList = Files.readAllLines(Paths.get("/Users/vivek.me/NewsAggregator/src/main/java/com/example/NewsAggregator/English_StopWords.txt"));
+            List<String> stopWordsList = Files.readAllLines(Paths.get("src/main/java/com/example/NewsAggregator/English_StopWords.txt"));
             stopWordsRegex = stopWordsList.stream()
                     .collect(Collectors.joining("|", "\\b(", ")\\b\\s?"));
 
