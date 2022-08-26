@@ -17,16 +17,16 @@ public class AutoNewsGenerator {
         List<Response> responses = new ArrayList<>();
         try {
             JSONArray hindustanTimes = HttpURLConnection.sendGET(HindustanTimes.AUTO.getAction());
-            JSONArray cnbc = HttpURLConnection.sendGET(CNBC.AUTO.getAction());
+//            JSONArray cnbc = HttpURLConnection.sendGET(CNBC.AUTO.getAction());
             JSONArray ndtv = HttpURLConnection.sendGET(NDTV.AUTO.getAction());
-            JSONArray newYorkTimes = HttpURLConnection.sendGET(NewYorkTimes.AUTO.getAction());
+//            JSONArray newYorkTimes = HttpURLConnection.sendGET(NewYorkTimes.AUTO.getAction());
             JSONArray timesOfIndia = HttpURLConnection.sendGET(TimesOfIndia.AUTO.getAction());
             JSONArray news18 = HttpURLConnection.sendGET(News18.AUTO.getAction());
 
 
 
-            getResonse(newYorkTimes, responses);
-            getResonse(cnbc, responses);
+//            getResonse(newYorkTimes, responses);
+//            getResonse(cnbc, responses);
             getResonse(hindustanTimes, responses);
             getResonse(timesOfIndia, responses);
             getResonse(ndtv, responses);

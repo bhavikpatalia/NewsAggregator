@@ -16,12 +16,12 @@ public class BusinessNewsGenerator {
 
         List<Response> responses = new ArrayList<>();
         try {
-            JSONArray bbc = HttpURLConnection.sendGET(BBC.BUSINESS.getAction());
+//            JSONArray bbc = HttpURLConnection.sendGET(BBC.BUSINESS.getAction());
             JSONArray hindustanTimes = HttpURLConnection.sendGET(HindustanTimes.BUSINESS.getAction());
-            JSONArray cnbc = HttpURLConnection.sendGET(CNBC.BUSINESS.getAction());
+//            JSONArray cnbc = HttpURLConnection.sendGET(CNBC.BUSINESS.getAction());
             JSONArray ndtv = HttpURLConnection.sendGET(NDTV.BUSINESS.getAction());
-            JSONArray newYorkTimes = HttpURLConnection.sendGET(NewYorkTimes.BUSINESS.getAction());
-            JSONArray theGuardian = HttpURLConnection.sendGET(TheGuardian.BUSINESS.getAction());
+//            JSONArray newYorkTimes = HttpURLConnection.sendGET(NewYorkTimes.BUSINESS.getAction());
+//            JSONArray theGuardian = HttpURLConnection.sendGET(TheGuardian.BUSINESS.getAction());
             JSONArray theHindu = HttpURLConnection.sendGET(TheHindu.BUSINESS.getAction());
             JSONArray timesOfIndia = HttpURLConnection.sendGET(TimesOfIndia.BUSINESS.getAction());
             JSONArray news18 = HttpURLConnection.sendGET(News18.BUSINESS.getAction());
@@ -31,11 +31,11 @@ public class BusinessNewsGenerator {
 
 
 
-            getResonse(bbc, responses);
+//            getResonse(bbc, responses);
             getResonse(theHindu, responses);
-            getResonse(theGuardian, responses);
-            getResonse(newYorkTimes, responses);
-            getResonse(cnbc, responses);
+//            getResonse(theGuardian, responses);
+//            getResonse(newYorkTimes, responses);
+//            getResonse(cnbc, responses);
             getResonse(hindustanTimes, responses);
             getResonse(timesOfIndia, responses);
             getResonse(ndtv, responses);

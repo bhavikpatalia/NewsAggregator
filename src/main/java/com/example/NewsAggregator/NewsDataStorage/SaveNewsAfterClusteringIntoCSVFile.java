@@ -6,7 +6,6 @@ import com.example.NewsAggregator.NewsCosineClustering.ClusteringWithMerging;
 import com.example.NewsAggregator.Responses.Response;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import static com.example.NewsAggregator.NewsDataStorage.WriteDataIntoCSVFile.wr
 @Slf4j
 public class SaveNewsAfterClusteringIntoCSVFile {
 
-    Status status = new Status();
     public void doClustering() throws IOException {
 //        new FileWriter("/Users/vivek.me/NewsAggregator/ClusteredNews.csv", false);
 

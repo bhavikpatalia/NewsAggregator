@@ -85,7 +85,7 @@ public class ClusteringWithMerging {
             for(int j = i+1; j < grps.size(); j++){
                 Double cosineSimilarity = CosineSimilarity.cosineSimilarity(wordToCountMapping.get(grps.get(i)), wordToCountMapping.get(grps.get(j)));
 
-                if(cosineSimilarity >= 0.5){
+                if(cosineSimilarity >= 0.4){
                     differentGrps.remove(grps.get(j));
 
                     for(String str : wordToCountMapping.get(grps.get(j)).keySet()){

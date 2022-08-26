@@ -4,7 +4,7 @@ package com.example.NewsAggregator.NewsCosineClustering;
    https://gist.github.com/ldclakmal/667d8ecb620a0cce7d3dedae80a2c013
  */
 
-class Stemmer {
+public class Stemmer {
     private char[] b;
     private int i,
             i_end,

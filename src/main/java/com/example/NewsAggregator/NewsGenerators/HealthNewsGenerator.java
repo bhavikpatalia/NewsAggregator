@@ -16,24 +16,24 @@ public class HealthNewsGenerator {
 
         List<Response> responses = new ArrayList<>();
         try {
-            JSONArray bbc = HttpURLConnection.sendGET(BBC.HEALTH.getAction());
+//            JSONArray bbc = HttpURLConnection.sendGET(BBC.HEALTH.getAction());
             JSONArray hindustanTimes = HttpURLConnection.sendGET(HindustanTimes.HEALTH.getAction());
-            JSONArray huffPost = HttpURLConnection.sendGET(Huffpost.HEALTH.getAction());
+//            JSONArray huffPost = HttpURLConnection.sendGET(Huffpost.HEALTH.getAction());
             JSONArray indianExpress = HttpURLConnection.sendGET(IndianExpress.HEALTH.getAction());
-            JSONArray cnbc = HttpURLConnection.sendGET(CNBC.HEALTH.getAction());
+//            JSONArray cnbc = HttpURLConnection.sendGET(CNBC.HEALTH.getAction());
             JSONArray ndtv = HttpURLConnection.sendGET(NDTV.HEALTH.getAction());
-            JSONArray newYorkTimes = HttpURLConnection.sendGET(NewYorkTimes.HEALTH.getAction());
-            JSONArray theGuardian = HttpURLConnection.sendGET(TheGuardian.HEALTH.getAction());
+//            JSONArray newYorkTimes = HttpURLConnection.sendGET(NewYorkTimes.HEALTH.getAction());
+//            JSONArray theGuardian = HttpURLConnection.sendGET(TheGuardian.HEALTH.getAction());
             JSONArray theHindu = HttpURLConnection.sendGET(TheHindu.HEALTH.getAction());
 
-            getResonse(bbc, responses);
-            getResonse(cnbc, responses);
+//            getResonse(bbc, responses);
+//            getResonse(cnbc, responses);
             getResonse(theHindu, responses);
-            getResonse(theGuardian, responses);
-            getResonse(newYorkTimes, responses);
+//            getResonse(theGuardian, responses);
+//            getResonse(newYorkTimes, responses);
             getResonse(ndtv, responses);
             getResonse(indianExpress, responses);
-            getResonse(huffPost, responses);
+//            getResonse(huffPost, responses);
             getResonse(hindustanTimes, responses);
 
         } catch (Exception e){
