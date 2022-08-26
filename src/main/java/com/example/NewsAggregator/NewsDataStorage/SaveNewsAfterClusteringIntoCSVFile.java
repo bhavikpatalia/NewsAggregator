@@ -3,6 +3,8 @@ package com.example.NewsAggregator.NewsDataStorage;
 import com.example.NewsAggregator.Enum.ClusteredNewsCSVFiles;
 import com.example.NewsAggregator.Enum.NewsCategory;
 import com.example.NewsAggregator.NewsCosineClustering.ClusteringWithMerging;
+import com.example.NewsAggregator.NewsPriority.InnerPriority;
+import com.example.NewsAggregator.NewsPriority.OuterPriority;
 import com.example.NewsAggregator.Responses.Response;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,37 +53,51 @@ public class SaveNewsAfterClusteringIntoCSVFile {
 
     private void doClusteringForAuto() throws IOException {
         List<List<Response>> responseList = new ClusteringWithMerging().clusteringWithMerging("Auto");
+        OuterPriority.getOuterPrioritizedList(responseList);
+        InnerPriority.getInnerPrioritizedList(responseList);
         writeClusteredNewsIntoCSV(ClusteredNewsCSVFiles.AUTO.getAction(), responseList, NewsCategory.AUTO, 1,1);
     }
 
 
     private void doClusteringForEntertainment() throws IOException {
         List<List<Response>> responseList = new ClusteringWithMerging().clusteringWithMerging("Entertainment");
+        OuterPriority.getOuterPrioritizedList(responseList);
+        InnerPriority.getInnerPrioritizedList(responseList);
         writeClusteredNewsIntoCSV(ClusteredNewsCSVFiles.ENTERTAINMENT.getAction(), responseList, NewsCategory.ENTERTAINMENT, 1,1);
     }
 
     private void doClusteringForBusiness() throws IOException {
         List<List<Response>> responseList = new ClusteringWithMerging().clusteringWithMerging("Business");
+        OuterPriority.getOuterPrioritizedList(responseList);
+        InnerPriority.getInnerPrioritizedList(responseList);
         writeClusteredNewsIntoCSV(ClusteredNewsCSVFiles.BUSINESS.getAction(), responseList, NewsCategory.BUSINESS, 1,1);
     }
 
     private void doClusteringForTechnology() throws IOException {
         List<List<Response>> responseList = new ClusteringWithMerging().clusteringWithMerging("Technology");
+        OuterPriority.getOuterPrioritizedList(responseList);
+        InnerPriority.getInnerPrioritizedList(responseList);
         writeClusteredNewsIntoCSV(ClusteredNewsCSVFiles.TECHNOLOGY.getAction(), responseList, NewsCategory.TECHNOLOGY, 1,1);
     }
 
     private void doClusteringForScience() throws IOException {
         List<List<Response>> responseList = new ClusteringWithMerging().clusteringWithMerging("Science");
+        OuterPriority.getOuterPrioritizedList(responseList);
+        InnerPriority.getInnerPrioritizedList(responseList);
         writeClusteredNewsIntoCSV(ClusteredNewsCSVFiles.SCIENCE.getAction(), responseList, NewsCategory.SCIENCE, 1,1);
     }
 
     private void doClusteringForHealth() throws IOException {
         List<List<Response>> responseList = new ClusteringWithMerging().clusteringWithMerging("Health");
+        OuterPriority.getOuterPrioritizedList(responseList);
+        InnerPriority.getInnerPrioritizedList(responseList);
         writeClusteredNewsIntoCSV(ClusteredNewsCSVFiles.HEALTH.getAction(), responseList, NewsCategory.HEALTH, 1,1);
     }
 
     private void doClusteringForSports() throws IOException {
         List<List<Response>> responseList = new ClusteringWithMerging().clusteringWithMerging("Sports");
+        OuterPriority.getOuterPrioritizedList(responseList);
+        InnerPriority.getInnerPrioritizedList(responseList);
         writeClusteredNewsIntoCSV(ClusteredNewsCSVFiles.SPORTS.getAction(), responseList, NewsCategory.SPORTS, 1,1);
     }
 

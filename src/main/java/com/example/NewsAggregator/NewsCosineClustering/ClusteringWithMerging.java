@@ -18,7 +18,7 @@ public class ClusteringWithMerging {
     StemmedWords stemmedWords = new StemmedWords();
 
     public List<List<Response>> clusteringWithMerging(String fileName) throws IOException {
-        List<Response> dataFromCSVFile = getDataFromCSVFile("/Users/vivek.me/NewsAggregator/" + fileName + ".csv");
+        List<Response> dataFromCSVFile = getDataFromCSVFile(fileName + ".csv");
 
         Map<Integer, Map<String, Integer>> wordToCountMapping = new HashMap<>();
 
