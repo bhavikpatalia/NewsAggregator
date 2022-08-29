@@ -30,6 +30,7 @@ public class ReadFromCSVFiles {
                 response.setPubTime(Long.parseLong(row[2]));
                 response.setDescription(row[3]);
                 response.setLink(row[4]);
+                response.setImageUrl(row[5]);
                 responses.add(response);
             }
         }
@@ -52,15 +53,15 @@ public class ReadFromCSVFiles {
             Map<Long, List<Long>> mappingOfCluster = new HashMap<>();
             for(String[] row : allData){
                 List<Long> list;
-                if(!mappingOfCluster.containsKey(Long.parseLong(row[5]))){
+                if(!mappingOfCluster.containsKey(Long.parseLong(row[6]))){
                     list = new ArrayList<>();
                     list.add(Long.parseLong(row[0]));
-                    mappingOfCluster.put(Long.parseLong(row[5]), list);
+                    mappingOfCluster.put(Long.parseLong(row[6]), list);
                 }
                 else{
-                    list = mappingOfCluster.get(Long.parseLong(row[5]));
+                    list = mappingOfCluster.get(Long.parseLong(row[6]));
                     list.add(Long.parseLong(row[0]));
-                    mappingOfCluster.put(Long.parseLong(row[5]), list);
+                    mappingOfCluster.put(Long.parseLong(row[6]), list);
                 }
             }
 
@@ -74,8 +75,9 @@ public class ReadFromCSVFiles {
                             .time(Long.parseLong(row[2]))
                             .description(row[3])
                             .link(row[4])
-                            .clusterId(Long.parseLong(row[5]))
-                            .newsCategory(NewsCategory.valueOf(row[6]))
+                            .imageURL(row[5])
+                            .clusterId(Long.parseLong(row[6]))
+                            .newsCategory(NewsCategory.valueOf(row[7]))
                             .build());
                 }
                 responses.add(response);
@@ -87,12 +89,3 @@ public class ReadFromCSVFiles {
         return responses;
     }
 }
-
-//News.builder().newsId(Long.parseLong(row[0]))
-//        .title(row[1])
-//        .time(Long.parseLong(row[2]))
-//        .description(row[3])
-//        .link(row[4])
-//        .clusterId(Long.parseLong(row[5]))
-//        .newsCategory(NewsCategory.valueOf(row[6]))
-//        .build()

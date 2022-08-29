@@ -25,7 +25,7 @@ public class UpdateNewsDatabase {
 
     SaveNewsAfterClusteringIntoCSVFile saveNewsAfterClusteringIntoCSVFile = new SaveNewsAfterClusteringIntoCSVFile();
 
-    @Scheduled(fixedDelay = 20000L, initialDelay = 0L)
+    @Scheduled(fixedDelay = 2*60000L, initialDelay = 0L)
     public void updateNewsDatabase() throws IOException {
 
         log.info("Updating Science News into CSV File");

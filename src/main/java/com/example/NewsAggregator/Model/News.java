@@ -17,6 +17,7 @@ public class News {
     private String description;
     private Long time;
     private String link;
+    private String imageURL;
     private Long clusterId;
     private NewsCategory newsCategory;
 
@@ -67,6 +68,16 @@ public class News {
 
     @JsonSetter("link")
     public void setLink(String link) {
+        this.link = link;
+    }
+
+    @JsonGetter(value = "imageURL")
+    public String getImageURL() {
+        return link;
+    }
+
+    @JsonSetter("imageURL")
+    public void setImageURL(String link) {
         this.link = link;
     }
 

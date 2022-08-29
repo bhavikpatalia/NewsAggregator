@@ -16,4 +16,6 @@ public class Response {
     private String description;
 
     private Long pubTime;
+
+    private String imageUrl;
 }

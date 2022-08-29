@@ -22,10 +22,10 @@ public class WriteDataIntoCSVFile {
             CSVWriter writer = new CSVWriter(outputfile);
 
             List<String[]> data = new ArrayList<String[]>();
-            data.add(new String[] { "Id", "Title", "Time", "Description", "Link" });
+            data.add(new String[] { "Id", "Title", "Time", "Description", "Link", "ImageURL" });
             int count = 1;
             for(Response response : responses){
-                String[] temp = new String[]{Integer.toString(count), response.getTitle(), response.getPubTime().toString(), response.getDescription(), response.getLink()};
+                String[] temp = new String[]{Integer.toString(count), response.getTitle(), response.getPubTime().toString(), response.getDescription(), response.getLink(), response.getImageUrl()};
                 data.add(temp);
                 count += 1;
             }
@@ -49,11 +49,11 @@ public class WriteDataIntoCSVFile {
 
             List<String[]> data = new ArrayList<String[]>();
             if (status.count == 1)
-                data.add(new String[]{"Id", "Title", "Time", "Description", "Link", "ClusteredNumber", "Category"});
+                data.add(new String[]{"Id", "Title", "Time", "Description", "Link", "ImageURL", "ClusteredNumber", "Category"});
 
             for (List<Response> responseList : responses) {
                 for (Response response : responseList) {
-                    String[] temp = new String[]{Integer.toString(status.count), response.getTitle(), response.getPubTime().toString(), response.getDescription(), response.getLink(), Integer.toString(status.clusterNumber), category.getAction()};
+                    String[] temp = new String[]{Integer.toString(status.count), response.getTitle(), response.getPubTime().toString(), response.getDescription(), response.getLink(), response.getImageUrl(), Integer.toString(status.clusterNumber), category.getAction()};
                     data.add(temp);
                     status.count += 1;
                 }
@@ -78,11 +78,11 @@ public class WriteDataIntoCSVFile {
 
             List<String[]> data = new ArrayList<String[]>();
             if (count == 1)
-                data.add(new String[]{"Id", "Title", "Time", "Description", "Link", "ClusteredNumber", "Category"});
+                data.add(new String[]{"Id", "Title", "Time", "Description", "Link", "ImageURL", "ClusteredNumber", "Category"});
 
             for (List<Response> responseList : responses) {
                 for (Response response : responseList) {
-                    String[] temp = new String[]{Integer.toString(count), response.getTitle(), response.getPubTime().toString(), response.getDescription(), response.getLink(), Integer.toString(clusterNumber), category.getAction()};
+                    String[] temp = new String[]{Integer.toString(count), response.getTitle(), response.getPubTime().toString(), response.getDescription(), response.getLink(), response.getImageUrl(), Integer.toString(clusterNumber), category.getAction()};
                     data.add(temp);
                     count += 1;
                 }
