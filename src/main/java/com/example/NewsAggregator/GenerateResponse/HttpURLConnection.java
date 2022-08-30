@@ -1,5 +1,6 @@
 package com.example.NewsAggregator.GenerateResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.XML;
 import org.xml.sax.SAXException;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+@Slf4j
 public class HttpURLConnection {
 
     private static final String GET_URL = "https://timesofindia.indiatimes.com/rssfeeds/296589292.cms";
@@ -32,21 +34,26 @@ public class HttpURLConnection {
         int responseCode = con.getResponseCode();
         StringBuffer response = new StringBuffer();
 
-        if (responseCode == java.net.HttpURLConnection.HTTP_OK) { // success
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    con.getInputStream()));
-            String inputLine;
+        try {
+            if (responseCode == java.net.HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
 //            System.out.println(response.toString());
-        } else {
-            System.out.println("GET request not worked");
-            return null;
+            } else {
+                System.out.println("GET request not worked");
+                return null;
+            }
         }
-
+        catch (Exception e){
+            log.error("Exception while fetching rss field " + e.getMessage());
+            return new JSONArray();
+        }
         try {
             JSONArray json = XML.toJSONObject(response.toString()).getJSONObject("rss").getJSONObject("channel").getJSONArray("item");
             return json;

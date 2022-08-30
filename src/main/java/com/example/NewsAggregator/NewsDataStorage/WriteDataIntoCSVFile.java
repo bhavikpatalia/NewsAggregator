@@ -1,6 +1,7 @@
 package com.example.NewsAggregator.NewsDataStorage;
 
 import com.example.NewsAggregator.Enum.NewsCategory;
+import com.example.NewsAggregator.Model.NewsModel;
 import com.example.NewsAggregator.Responses.Response;
 import com.opencsv.CSVWriter;
 
@@ -68,7 +69,7 @@ public class WriteDataIntoCSVFile {
         }
     }
 
-    public static void writeClusteredNewsIntoCSV(String path, List<List<Response>> responses, NewsCategory category, int count, int clusterNumber) {
+    public static void writeClusteredNewsIntoCSV(String path, List<List<NewsModel>> responses, NewsCategory category, int count, int clusterNumber) {
         File file = new File(path);
 
         try {
@@ -80,9 +81,9 @@ public class WriteDataIntoCSVFile {
             if (count == 1)
                 data.add(new String[]{"Id", "Title", "Time", "Description", "Link", "ImageURL", "ClusteredNumber", "Category"});
 
-            for (List<Response> responseList : responses) {
-                for (Response response : responseList) {
-                    String[] temp = new String[]{Integer.toString(count), response.getTitle(), response.getPubTime().toString(), response.getDescription(), response.getLink(), response.getImageUrl(), Integer.toString(clusterNumber), category.getAction()};
+            for (List<NewsModel> responseList : responses) {
+                for (NewsModel response : responseList) {
+                    String[] temp = new String[]{Integer.toString(count), response.getTitle(), response.getTime().toString(), response.getDescription(), response.getLink(), response.getImageURL(), Integer.toString(clusterNumber), category.getAction()};
                     data.add(temp);
                     count += 1;
                 }

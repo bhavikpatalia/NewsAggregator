@@ -1,6 +1,7 @@
 package com.example.NewsAggregator.Controller;
 
 import com.example.NewsAggregator.Service.NewsServiceImplForCSV;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import java.io.IOException;
 @RestController
 public class NewsController {
 
-    NewsServiceImplForCSV newsServiceImplForCSV = new NewsServiceImplForCSV();
+    @Autowired
+    NewsServiceImplForCSV newsServiceImplForCSV;
 
 
     @RequestMapping(value = "/getSportsNews",  headers = "Accept=application/json")

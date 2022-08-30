@@ -1,7 +1,9 @@
 package com.example.NewsAggregator.Responses;
 
 
+import com.example.NewsAggregator.Service.NewsServiceImpl;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Setter

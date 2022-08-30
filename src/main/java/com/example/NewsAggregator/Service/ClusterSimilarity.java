@@ -1,22 +1,24 @@
 package com.example.NewsAggregator.Service;
 
-import com.example.NewsAggregator.Model.News;
+import com.example.NewsAggregator.Model.NewsModel;
 import com.example.NewsAggregator.NewsCosineClustering.CosineSimilarity;
 import com.example.NewsAggregator.NewsCosineClustering.StemmedWords;
 import com.example.NewsAggregator.NewsCosineClustering.Stemmer;
 import com.example.NewsAggregator.NewsCosineClustering.StopWords;
 import com.example.NewsAggregator.Responses.Response;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
 
+@Service
 public class ClusterSimilarity {
 
     StopWords stopWords = new StopWords();
     Stemmer stemmer = new Stemmer();
     StemmedWords stemmedWords = new StemmedWords();
 
-    public Double getSimilarity(List<List<News>> newsList, int cl1, int cl2) throws IOException {
+    public Double getSimilarity(List<List<NewsModel>> newsList, int cl1, int cl2) throws IOException {
 
         Map<Integer, Map<String, Integer>> wordToCountMapping = new HashMap<>();
 
@@ -25,12 +27,12 @@ public class ClusterSimilarity {
 
         Map<String, Integer> globalFreq  = new HashMap<>();
         int count = 1;
-        for(List<News> news : newsList){
-            for(News news1 : news){
-                wordToCountMapping.put(count, getStringToCountMapping( Response.builder().description(news1.getDescription())
-                        .pubTime(news1.getTime())
-                        .link(news1.getLink())
-                        .title(news1.getTitle())
+        for(List<NewsModel> newsModels : newsList){
+            for(NewsModel newsModel1 : newsModels){
+                wordToCountMapping.put(count, getStringToCountMapping( Response.builder().description(newsModel1.getDescription())
+                        .pubTime(newsModel1.getTime())
+                        .link(newsModel1.getLink())
+                        .title(newsModel1.getTitle())
                         .build(), globalFreq));
                 count++;
             }
@@ -62,17 +64,17 @@ public class ClusterSimilarity {
         List<Integer> grpClr2 = new ArrayList<>();
 
         count = 1;
-        for(List<News> news : newsList){
-            for(News news1 : news){
-               if(news1.getClusterId() == cl1){
-                   grpClr1.add(count);
-               }
-               if(news1.getClusterId() == cl2){
-                   grpClr2.add(count);
-               }
-               count++;
-            }
-        }
+//        for(List<NewsModel> newsModels : newsList){
+//            for(NewsModel newsModel1 : newsModels){
+//               if(newsModel1.getClusterId() == cl1){
+//                   grpClr1.add(count);
+//               }
+//               if(newsModel1.getClusterId() == cl2){
+//                   grpClr2.add(count);
+//               }
+//               count++;
+//            }
+//        }
         Map<String, Double> grp1 = new HashMap<>();
         Map<String, Double> grp2 = new HashMap<>();
 
@@ -132,6 +134,5 @@ public class ClusterSimilarity {
     private  Double log2(double v) {
         return Math.log(v)/Math.log(2);
     }
-
 
 }

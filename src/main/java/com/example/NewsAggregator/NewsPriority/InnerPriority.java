@@ -2,6 +2,7 @@ package com.example.NewsAggregator.NewsPriority;
 
 import com.example.NewsAggregator.Constants.Constant;
 import com.example.NewsAggregator.Enum.NewsPrefix;
+import com.example.NewsAggregator.Model.NewsModel;
 import com.example.NewsAggregator.Responses.Response;
 import java.util.*;
 
@@ -23,14 +24,14 @@ public class InnerPriority {
         return Integer.parseInt(new Date(pubTime).toString().split(" ")[2]);
     }
 
-    static class Sort implements Comparator<Response> {
+    static class Sort implements Comparator<NewsModel> {
 
         @Override
-        public int compare(Response response1, Response response2) {
+        public int compare(NewsModel response1, NewsModel response2) {
             double newsScore1 = getScoreOfNewsSource(response1.getLink());
             double newsScore2 = getScoreOfNewsSource(response2.getLink());
-            int date1 = getDateOfNewsPublish(response1.getPubTime());
-            int date2 = getDateOfNewsPublish(response2.getPubTime());
+            int date1 = getDateOfNewsPublish(response1.getTime());
+            int date2 = getDateOfNewsPublish(response2.getTime());
 
             if(date1 > date2) return -1;
             if(date1 < date2) return 1;
@@ -41,8 +42,8 @@ public class InnerPriority {
         }
     }
 
-    public static void getInnerPrioritizedList(List<List<Response>> responses){
-        for(List<Response> responseList : responses){
+    public static void getInnerPrioritizedList(List<List<NewsModel>> responses){
+        for(List<NewsModel> responseList : responses){
             responseList.sort(new Sort());
         }
     }

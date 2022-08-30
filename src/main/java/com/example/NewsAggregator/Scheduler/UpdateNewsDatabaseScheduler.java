@@ -1,18 +1,18 @@
-package com.example.NewsAggregator.NewsDataStorage;
+package com.example.NewsAggregator.Scheduler;
 
+import com.example.NewsAggregator.Constants.Constant;
 import com.example.NewsAggregator.Enum.CSVFiles;
+import com.example.NewsAggregator.Enum.NewsCategory;
+import com.example.NewsAggregator.NewsDataStorage.SaveNewsAfterClusteringIntoCSVFile;
+import com.example.NewsAggregator.NewsDataStorage.WriteDataIntoMySql;
 import com.example.NewsAggregator.NewsGenerators.*;
 import com.example.NewsAggregator.Responses.Response;
-import com.opencsv.CSVWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.NewsAggregator.NewsDataStorage.WriteDataIntoCSVFile.writeDataForCustomSeparatorCSV;
@@ -20,18 +20,23 @@ import static com.example.NewsAggregator.NewsDataStorage.WriteDataIntoCSVFile.wr
 
 @Slf4j
 @Service
-public class UpdateNewsDatabase {
+public class UpdateNewsDatabaseScheduler {
 
 
-    SaveNewsAfterClusteringIntoCSVFile saveNewsAfterClusteringIntoCSVFile = new SaveNewsAfterClusteringIntoCSVFile();
+    @Autowired
+    WriteDataIntoMySql writeDataIntoMySql;
 
-    @Scheduled(fixedDelay = 2*60000L, initialDelay = 0L)
+    @Autowired
+    SaveNewsAfterClusteringIntoCSVFile saveNewsAfterClusteringIntoCSVFile;
+
+    @Scheduled(fixedRate = 2*60000L, initialDelay = 0L)
     public void updateNewsDatabase() throws IOException {
 
         log.info("Updating Science News into CSV File");
         ScienceNewsGenerator scienceNewsGenerator = new ScienceNewsGenerator();
         List<Response> parsedNews = scienceNewsGenerator.getAllScienceNews();
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.SCIENCE.getAction());
+        writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.SCIENCE);
         parsedNews.clear();
 
 
@@ -39,6 +44,7 @@ public class UpdateNewsDatabase {
         AutoNewsGenerator autoNewsGenerator = new AutoNewsGenerator();
         parsedNews = autoNewsGenerator.getAllAutoNews();
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.AUTO.getAction());
+        writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.AUTO);
         parsedNews.clear();
 
 
@@ -46,6 +52,7 @@ public class UpdateNewsDatabase {
         BusinessNewsGenerator businessNewsGenerator = new BusinessNewsGenerator();
         parsedNews = businessNewsGenerator.getAllBusinessNews();
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.BUSINESS.getAction());
+        writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.BUSINESS);
         parsedNews.clear();
 
 
@@ -53,6 +60,7 @@ public class UpdateNewsDatabase {
         EntertainmentNewsGenerator entertainmentNewsGenerator = new EntertainmentNewsGenerator();
         parsedNews = entertainmentNewsGenerator.getAllEntertainmentNews();
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.ENTERTAINMENT.getAction());
+        writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.ENTERTAINMENT);
         parsedNews.clear();
 
 
@@ -60,6 +68,7 @@ public class UpdateNewsDatabase {
         HealthNewsGenerator healthNewsGenerator = new HealthNewsGenerator();
         parsedNews = healthNewsGenerator.getAllHealthNews();
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.HEALTH.getAction());
+        writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.HEALTH);
         parsedNews.clear();
 
 
@@ -67,6 +76,7 @@ public class UpdateNewsDatabase {
         SportsNewsGenerator sportsNewsGenerator = new SportsNewsGenerator();
         parsedNews = sportsNewsGenerator.getAllSportsNews();
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.SPORTS.getAction());
+        writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.SPORTS);
         parsedNews.clear();
 
 
@@ -74,8 +84,12 @@ public class UpdateNewsDatabase {
         TechnologyNewsGenerator technologyNewsGenerator = new TechnologyNewsGenerator();
         parsedNews = technologyNewsGenerator.getAllTechnologyNews();
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.TECHNOLOGY.getAction());
+        writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.TECHNOLOGY);
 
         saveNewsAfterClusteringIntoCSVFile.doClustering();
         log.info("********News has been saved successfully into CSV file*******");
+//        Constant.count.set(1);
+//        Constant.countWriteNewsDB.set(1);
+//        Constant.countWriteClusteredNewsDB.set(1);
     }
 }

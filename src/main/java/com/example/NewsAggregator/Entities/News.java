@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "NEWS")
+@Table(name = "News")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,9 +17,8 @@ import javax.persistence.*;
 public class News {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long newsId;
+    private Integer newsId;
 
     @Column(name = "title")
     private String title;
@@ -27,15 +26,15 @@ public class News {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "publishTime")
+    @Column(name = "time")
     private Long time;
 
     @Column(name = "link")
     private String link;
 
-    @Column(name = "clusterId")
-    private Long clusterId;
-
     @Column(name = "category")
     private NewsCategory newsCategory;
+
+    @Column(name = "imageURL")
+    private String imageURL;
 }

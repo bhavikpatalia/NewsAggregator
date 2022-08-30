@@ -1,7 +1,7 @@
 package com.example.NewsAggregator.NewsDataStorage;
 
 import com.example.NewsAggregator.Enum.NewsCategory;
-import com.example.NewsAggregator.Model.News;
+import com.example.NewsAggregator.Model.NewsModel;
 import com.example.NewsAggregator.Responses.Response;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -40,8 +40,8 @@ public class ReadFromCSVFiles {
         return responses;
     }
 
-    public static List<List<News>> getDataFromCSVFile(String path,boolean type){
-        List<List<News>> responses = new ArrayList<>();
+    public static List<List<NewsModel>> getDataFromCSVFile(String path, boolean type){
+        List<List<NewsModel>> responses = new ArrayList<>();
         try {
             FileReader filereader = new FileReader(path);
 
@@ -67,16 +67,16 @@ public class ReadFromCSVFiles {
 
             for(Long l : mappingOfCluster.keySet()){
                 List<Long> newsIndex = mappingOfCluster.get(l);
-                List<News> response = new ArrayList<>();
+                List<NewsModel> response = new ArrayList<>();
                 for(Long index : newsIndex){
                     String[] row = allData.get((int) (index-1));
-                    response.add(News.builder().newsId(Long.parseLong(row[0]))
+                    response.add(NewsModel.builder().newsId(Integer.parseInt(row[0]))
                             .title(row[1])
                             .time(Long.parseLong(row[2]))
                             .description(row[3])
                             .link(row[4])
                             .imageURL(row[5])
-                            .clusterId(Long.parseLong(row[6]))
+                            .clusterId(Integer.parseInt(row[6]))
                             .newsCategory(NewsCategory.valueOf(row[7]))
                             .build());
                 }

@@ -10,24 +10,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class News {
+public class NewsModel {
 
-    private Long newsId;
+    private Integer newsId;
     private String title;
     private String description;
     private Long time;
     private String link;
     private String imageURL;
-    private Long clusterId;
+    private Integer clusterId;
     private NewsCategory newsCategory;
 
     @JsonGetter(value = "news_id")
-    public Long getNewsId() {
+    public Integer getNewsId() {
         return newsId;
     }
 
     @JsonSetter("news_id")
-    public void setNewsId(Long newsId) {
+    public void setNewsId(Integer newsId) {
         this.newsId = newsId;
     }
 
@@ -82,12 +82,12 @@ public class News {
     }
 
     @JsonGetter(value = "cluster_id")
-    public Long getClusterId() {
+    public Integer getClusterId() {
         return clusterId;
     }
 
     @JsonSetter("cluster_id")
-    public void setClusterId(Long clusterId) {
+    public void setClusterId(Integer clusterId) {
         this.clusterId = clusterId;
     }
 

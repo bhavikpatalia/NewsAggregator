@@ -2,6 +2,7 @@ package com.example.NewsAggregator.NewsPriority;
 
 import com.example.NewsAggregator.Constants.Constant;
 import com.example.NewsAggregator.Enum.NewsPrefix;
+import com.example.NewsAggregator.Model.NewsModel;
 import com.example.NewsAggregator.Responses.Response;
 
 import java.util.Comparator;
@@ -26,20 +27,20 @@ public class OuterPriority {
         return Integer.parseInt(new Date(pubTime).toString().split(" ")[2]);
     }
 
-    public static double getAvgNewsPublishDate(List<Response> responses){
-        int sumOfDates = responses.stream().mapToInt(response -> getDateOfNewsPublish(response.getPubTime())).sum();
+    public static double getAvgNewsPublishDate(List<NewsModel> responses){
+        int sumOfDates = responses.stream().mapToInt(response -> getDateOfNewsPublish(response.getTime())).sum();
         return (double) sumOfDates/responses.size();
     }
 
-    public static double getAvgScoreOfNewsSources(List<Response> responses){
+    public static double getAvgScoreOfNewsSources(List<NewsModel> responses){
         double sumOfDates = responses.stream().mapToDouble(response -> getScoreOfNewsSource(response.getLink())).sum();
         return sumOfDates/responses.size();
     }
 
-    static class Sort implements Comparator<List<Response>>{
+    static class Sort implements Comparator<List<NewsModel>>{
 
         @Override
-        public int compare(List<Response> responseList1, List<Response> responseList2) {
+        public int compare(List<NewsModel> responseList1, List<NewsModel> responseList2) {
 
             int clusterSize1 = responseList1.size();
             int clusterSize2 = responseList2.size();
@@ -59,7 +60,7 @@ public class OuterPriority {
         }
     }
 
-    public static void getOuterPrioritizedList(List<List<Response>> responses){
+    public static void getOuterPrioritizedList(List<List<NewsModel>> responses){
         responses.sort(new Sort());
     }
 }

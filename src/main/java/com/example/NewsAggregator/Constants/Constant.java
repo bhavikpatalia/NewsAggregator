@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Getter
 @AllArgsConstructor
 public final class Constant{
@@ -16,4 +18,7 @@ public final class Constant{
     public static final double timeOfIndia = 58.7;
     public static final double theHindu = 34.5;
     public static final String defaultImgURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9kYvneZq22IX1CbTcbFSiK0IaWsd_kGhiZw&usqp=CAU";
+    public static AtomicInteger count = new AtomicInteger(1);
+    public static AtomicInteger countWriteNewsDB = new AtomicInteger(1);
+    public static AtomicInteger countWriteClusteredNewsDB = new AtomicInteger(1);
 }
