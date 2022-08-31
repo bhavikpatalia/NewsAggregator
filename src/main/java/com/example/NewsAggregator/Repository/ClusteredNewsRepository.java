@@ -19,4 +19,6 @@ public interface ClusteredNewsRepository extends JpaRepository<ClusteredNews, In
      @Modifying
      @Query("delete from ClusteredNews as cn where cn.newsId in :list")
      void deleteAllByNewsIds(@Param("list") List<Integer> list);
+
+     List<ClusteredNews> findAllByClusterRankAndNewsCategory(Integer clusterRank, NewsCategory newsCategory);
 }

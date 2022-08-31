@@ -28,17 +28,14 @@ public class InnerPriority {
 
         @Override
         public int compare(NewsModel response1, NewsModel response2) {
-            double newsScore1 = getScoreOfNewsSource(response1.getLink());
-            double newsScore2 = getScoreOfNewsSource(response2.getLink());
-            int date1 = getDateOfNewsPublish(response1.getTime());
-            int date2 = getDateOfNewsPublish(response2.getTime());
+            double newsScore1 = getScoreOfNewsSource(response1.getLink())/Constant.maxNewsSourceScore;
+            double newsScore2 = getScoreOfNewsSource(response2.getLink())/Constant.maxNewsSourceScore;
+            double date1 = getDateOfNewsPublish(response1.getTime())/Constant.maxNewsPubDate;
+            double date2 = getDateOfNewsPublish(response2.getTime())/Constant.maxNewsPubDate;
 
-            if(date1 > date2) return -1;
-            if(date1 < date2) return 1;
-            if(newsScore1 > newsScore2) return -1;
-            if(newsScore1 == newsScore2) return 0;
-            return 1;
-
+            double score1 = newsScore1*1.5 + date1;
+            double score2 = newsScore2*1.5 + date2;
+            return Double.compare(score2, score1);
         }
     }
 

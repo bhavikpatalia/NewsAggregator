@@ -21,4 +21,6 @@ public final class Constant{
     public static AtomicInteger count = new AtomicInteger(1);
     public static AtomicInteger countWriteNewsDB = new AtomicInteger(1);
     public static AtomicInteger countWriteClusteredNewsDB = new AtomicInteger(1);
+    public static final double maxNewsSourceScore = 187.2;
+    public static final double maxNewsPubDate = 31;
 }

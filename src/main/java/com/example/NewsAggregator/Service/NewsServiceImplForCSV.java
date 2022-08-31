@@ -58,31 +58,31 @@ public class NewsServiceImplForCSV {
     }
 
     public Double getSportsNewsSimilarity(int cl1, int cl2) throws IOException {
-        return clusterSimilarity.getSimilarity(ReadFromCSVFiles.getDataFromCSVFile(ClusteredNewsCSVFiles.SPORTS.getAction(), false), cl1, cl2);
+        return clusterSimilarity.getSimilarity(readFromMySqlDatabase.readClusteredNewsFromDatabase(NewsCategory.SPORTS), cl1, cl2, NewsCategory.SPORTS);
     }
 
     public Double getScienceNewsSimilarity(int cl1, int cl2) throws IOException {
-        return clusterSimilarity.getSimilarity(ReadFromCSVFiles.getDataFromCSVFile(ClusteredNewsCSVFiles.SCIENCE.getAction(), false), cl1, cl2);
+        return clusterSimilarity.getSimilarity(readFromMySqlDatabase.readClusteredNewsFromDatabase(NewsCategory.SCIENCE), cl1, cl2, NewsCategory.SCIENCE);
     }
 
     public Double getBusinessNewsSimilarity(int cl1, int cl2) throws IOException {
-        return clusterSimilarity.getSimilarity(ReadFromCSVFiles.getDataFromCSVFile(ClusteredNewsCSVFiles.BUSINESS.getAction(), false), cl1, cl2);
+        return clusterSimilarity.getSimilarity(readFromMySqlDatabase.readClusteredNewsFromDatabase(NewsCategory.BUSINESS), cl1, cl2, NewsCategory.BUSINESS);
     }
 
     public Double getAutoNewsSimilarity(int cl1, int cl2) throws IOException {
-        return clusterSimilarity.getSimilarity(ReadFromCSVFiles.getDataFromCSVFile(ClusteredNewsCSVFiles.AUTO.getAction(), false), cl1, cl2);
+        return clusterSimilarity.getSimilarity(readFromMySqlDatabase.readClusteredNewsFromDatabase(NewsCategory.AUTO), cl1, cl2, NewsCategory.AUTO);
     }
 
     public Double getTechnologyNewsSimilarity(int cl1, int cl2) throws IOException {
-        return clusterSimilarity.getSimilarity(ReadFromCSVFiles.getDataFromCSVFile(ClusteredNewsCSVFiles.TECHNOLOGY.getAction(), false), cl1, cl2);
+        return clusterSimilarity.getSimilarity(readFromMySqlDatabase.readClusteredNewsFromDatabase(NewsCategory.TECHNOLOGY), cl1, cl2, NewsCategory.TECHNOLOGY);
     }
 
     public Double getEntertainmentNewsSimilarity(int cl1, int cl2) throws IOException {
-        return clusterSimilarity.getSimilarity(ReadFromCSVFiles.getDataFromCSVFile(ClusteredNewsCSVFiles.ENTERTAINMENT.getAction(), false), cl1, cl2);
+        return clusterSimilarity.getSimilarity(readFromMySqlDatabase.readClusteredNewsFromDatabase(NewsCategory.ENTERTAINMENT), cl1, cl2, NewsCategory.ENTERTAINMENT);
     }
 
     public Double getHealthNewsSimilarity(int cl1, int cl2) throws IOException {
-        return clusterSimilarity.getSimilarity(ReadFromCSVFiles.getDataFromCSVFile(ClusteredNewsCSVFiles.HEALTH.getAction(), false), cl1, cl2);
+        return clusterSimilarity.getSimilarity(readFromMySqlDatabase.readClusteredNewsFromDatabase(NewsCategory.HEALTH), cl1, cl2, NewsCategory.HEALTH);
     }
 
 }

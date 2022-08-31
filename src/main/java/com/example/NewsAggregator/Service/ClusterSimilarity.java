@@ -1,11 +1,14 @@
 package com.example.NewsAggregator.Service;
 
+import com.example.NewsAggregator.Enum.NewsCategory;
 import com.example.NewsAggregator.Model.NewsModel;
+import com.example.NewsAggregator.Model.UIResponseModel;
 import com.example.NewsAggregator.NewsCosineClustering.CosineSimilarity;
 import com.example.NewsAggregator.NewsCosineClustering.StemmedWords;
 import com.example.NewsAggregator.NewsCosineClustering.Stemmer;
 import com.example.NewsAggregator.NewsCosineClustering.StopWords;
 import com.example.NewsAggregator.Responses.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,7 +21,10 @@ public class ClusterSimilarity {
     Stemmer stemmer = new Stemmer();
     StemmedWords stemmedWords = new StemmedWords();
 
-    public Double getSimilarity(List<List<NewsModel>> newsList, int cl1, int cl2) throws IOException {
+    @Autowired
+    ClusteredNewsServiceImpl clusteredNewsService;
+
+    public Double getSimilarity(List<List<UIResponseModel>> newsList, int cl1, int cl2, NewsCategory newsCategory) throws IOException {
 
         Map<Integer, Map<String, Integer>> wordToCountMapping = new HashMap<>();
 
@@ -27,10 +33,9 @@ public class ClusterSimilarity {
 
         Map<String, Integer> globalFreq  = new HashMap<>();
         int count = 1;
-        for(List<NewsModel> newsModels : newsList){
-            for(NewsModel newsModel1 : newsModels){
+        for(List<UIResponseModel> newsModels : newsList){
+            for(UIResponseModel newsModel1 : newsModels){
                 wordToCountMapping.put(count, getStringToCountMapping( Response.builder().description(newsModel1.getDescription())
-                        .pubTime(newsModel1.getTime())
                         .link(newsModel1.getLink())
                         .title(newsModel1.getTitle())
                         .build(), globalFreq));
@@ -64,17 +69,17 @@ public class ClusterSimilarity {
         List<Integer> grpClr2 = new ArrayList<>();
 
         count = 1;
-//        for(List<NewsModel> newsModels : newsList){
-//            for(NewsModel newsModel1 : newsModels){
-//               if(newsModel1.getClusterId() == cl1){
-//                   grpClr1.add(count);
-//               }
-//               if(newsModel1.getClusterId() == cl2){
-//                   grpClr2.add(count);
-//               }
-//               count++;
-//            }
-//        }
+        for(List<UIResponseModel> newsModels : newsList){
+            for(UIResponseModel newsModel1 : newsModels){
+               if(newsModel1.getClusterRank() == cl1){
+                   grpClr1.add(count);
+               }
+               if(newsModel1.getClusterRank() == cl2){
+                   grpClr2.add(count);
+               }
+               count++;
+            }
+        }
         Map<String, Double> grp1 = new HashMap<>();
         Map<String, Double> grp2 = new HashMap<>();
 
