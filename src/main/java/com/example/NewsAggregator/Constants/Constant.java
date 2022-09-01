@@ -2,7 +2,6 @@ package com.example.NewsAggregator.Constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,4 +22,8 @@ public final class Constant{
     public static AtomicInteger countWriteClusteredNewsDB = new AtomicInteger(1);
     public static final double maxNewsSourceScore = 187.2;
     public static final double maxNewsPubDate = 31;
+    public static Integer minNewsIdForApi = 0;
+    public static Integer maxNewsIdForApi = 0;
+    public static Integer minNewsIdForClr = 0;
+    public static Integer maxNewsIdForClr = 0;
 }

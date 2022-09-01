@@ -12,5 +12,5 @@ public interface ClusteredNewsService {
 
     List<ClusteredNews> findAllByNewsCategory(NewsCategory newsCategory);
 
-    void deleteByNewsIds(List<Integer> newsIds);
+    void deleteByNewsIds(Integer val);
 }

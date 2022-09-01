@@ -7,6 +7,7 @@ import com.example.NewsAggregator.NewsDataStorage.SaveNewsAfterClusteringIntoCSV
 import com.example.NewsAggregator.NewsDataStorage.WriteDataIntoMySql;
 import com.example.NewsAggregator.NewsGenerators.*;
 import com.example.NewsAggregator.Responses.Response;
+import com.example.NewsAggregator.Service.NewsTimeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,9 +30,14 @@ public class UpdateNewsDatabaseScheduler {
     @Autowired
     SaveNewsAfterClusteringIntoCSVFile saveNewsAfterClusteringIntoCSVFile;
 
+    @Autowired
+    NewsTimeServiceImpl newsTimeService;
+
     @Scheduled(fixedRate = 2*60000L, initialDelay = 0L)
     public void updateNewsDatabase() throws IOException {
 
+        int initial = Constant.countWriteNewsDB.get();
+//        Constant.minNewsId = Constant.countWriteNewsDB.get();
         log.info("Updating Science News into CSV File");
         ScienceNewsGenerator scienceNewsGenerator = new ScienceNewsGenerator();
         List<Response> parsedNews = scienceNewsGenerator.getAllScienceNews();
@@ -86,10 +92,22 @@ public class UpdateNewsDatabaseScheduler {
         writeDataForCustomSeparatorCSV(parsedNews, CSVFiles.TECHNOLOGY.getAction());
         writeDataIntoMySql.writeParsedNewsIntoDB(parsedNews, NewsCategory.TECHNOLOGY);
 
+        newsTimeService.saveAll(Constant.minNewsIdForApi, Constant.countWriteNewsDB.get());
+        Constant.minNewsIdForClr = initial;
+        Constant.maxNewsIdForClr = Constant.countWriteNewsDB.get()-1;
+
         saveNewsAfterClusteringIntoCSVFile.doClustering();
         log.info("********News has been saved successfully into CSV file*******");
+        Constant.minNewsIdForApi = initial;
+        Constant.maxNewsIdForApi = Constant.countWriteNewsDB.get();
 //        Constant.count.set(1);
 //        Constant.countWriteNewsDB.set(1);
 //        Constant.countWriteClusteredNewsDB.set(1);
     }
 }
+
+
+//1 100
+//
+//
+//2 210

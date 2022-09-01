@@ -110,7 +110,9 @@ public class ReadFromMySqlDatabase {
 
             @Override
             public int compare(UIResponseModel response1, UIResponseModel response2) {
-                return response1.getNewsRankInCluster().compareTo(response2.getNewsRankInCluster());
+                if(response1.getNewsRankInCluster() < response2.getNewsRankInCluster()) return -1;
+                if(response1.getNewsRankInCluster() == response2.getNewsRankInCluster()) return 0;
+                return 1;
             }
         }
         for(List<UIResponseModel> uiResponseModels : response){
@@ -125,7 +127,7 @@ public class ReadFromMySqlDatabase {
             @Override
             public int compare(List<UIResponseModel> o1, List<UIResponseModel> o2) {
 
-                if(o1.size() > o2.size()) return -1;
+                if(o1.get(0).getClusterRank() < o2.get(0).getClusterRank()) return -1;
                 if(o1.size() == o2.size()) return 0;
                 return 1;
             }

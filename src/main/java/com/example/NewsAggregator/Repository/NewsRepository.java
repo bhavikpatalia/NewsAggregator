@@ -19,9 +19,10 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
 
     News findByNewsId(Integer id);
 
-    List<News> findAllByNewsCategory(NewsCategory newsCategory);
+    @Query("select n from News as n where n.newsCategory = ?1 and n.newsId >= ?2 and n.newsId < ?3")
+    List<News> findAllByNewsCategoryAndNewsId(NewsCategory newsCategory, Integer min, Integer max);
 
     @Modifying
-    @Query("delete from News as n where n.newsId in :newsIds")
-    void deleteAllByNewsIds(@Param("newsIds") List<Integer> newsIds);
+    @Query("delete from News as n where n.newsId <= ?1")
+    void deleteAllByNewsIds(Integer val);
 }

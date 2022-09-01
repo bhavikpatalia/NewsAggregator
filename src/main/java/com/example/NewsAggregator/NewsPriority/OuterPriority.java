@@ -24,13 +24,13 @@ public class OuterPriority {
         return 0.0d;
     }
 
-    public static int getDateOfNewsPublish(Long pubTime){
-        return Integer.parseInt(new Date(pubTime).toString().split(" ")[2]);
-    }
+//    public static int getDateOfNewsPublish(Long pubTime){
+//        return Integer.parseInt(new Date(pubTime).toString().split(" ")[2]);
+//    }
 
-    public static double getNewsPublishDate(List<NewsModel> responses){
-        return responses.stream().mapToInt(response -> getDateOfNewsPublish(response.getTime())).sum();
-    }
+//    public static double getNewsPublishDate(List<NewsModel> responses){
+//        return responses.stream().mapToInt(response -> getDateOfNewsPublish(response.getTime())).sum();
+//    }
 
     public static double getScoreOfNewsSources(List<NewsModel> responses){
         return responses.stream().mapToDouble(response -> getScoreOfNewsSource(response.getLink())).sum();
@@ -41,15 +41,22 @@ public class OuterPriority {
         @Override
         public int compare(List<NewsModel> responseList1, List<NewsModel> responseList2) {
 
+//            double clusterSize1 = (double) responseList1.size()/maxClusterSize;
+//            double clusterSize2 = (double) responseList2.size()/maxClusterSize;
+//            double allNewsScoresSum1 = getScoreOfNewsSources(responseList1)/Constant.maxNewsSourceScore;
+//            double allNewsScoresSum2 = getScoreOfNewsSources(responseList2)/Constant.maxNewsSourceScore;
+//            double allPubDateSum1 = getNewsPublishDate(responseList1)/Constant.maxNewsPubDate;
+//            double allPubDateSum2 = getNewsPublishDate(responseList2)/Constant.maxNewsPubDate;
+
             double clusterSize1 = (double) responseList1.size()/maxClusterSize;
             double clusterSize2 = (double) responseList2.size()/maxClusterSize;
-            double allNewsScoresSum1 = getScoreOfNewsSources(responseList1)/Constant.maxNewsSourceScore;
-            double allNewsScoresSum2 = getScoreOfNewsSources(responseList2)/Constant.maxNewsSourceScore;
-            double allPubDateSum1 = getNewsPublishDate(responseList1)/Constant.maxNewsPubDate;
-            double allPubDateSum2 = getNewsPublishDate(responseList2)/Constant.maxNewsPubDate;
+            double allNewsScoresSum1 = getScoreOfNewsSources(responseList1)/(responseList1.size() * Constant.maxNewsSourceScore);
+            double allNewsScoresSum2 = getScoreOfNewsSources(responseList2)/(responseList2.size() * Constant.maxNewsSourceScore);
+            double allPubDateSum1 = getNewsPublishDate(responseList1);
+            double allPubDateSum2 = getNewsPublishDate(responseList2);
 
-            double score1 = clusterSize1*1.5 + allNewsScoresSum1 + allPubDateSum1;
-            double score2 = clusterSize2*1.5 + allNewsScoresSum2 + allPubDateSum2;
+            double score1 = clusterSize1*1.5 + allNewsScoresSum1*0.9 + allPubDateSum1*1.3;
+            double score2 = clusterSize2*1.5 + allNewsScoresSum2*0.9 + allPubDateSum2*1.3;
             return Double.compare(score2, score1);
         }
     }
@@ -58,4 +65,39 @@ public class OuterPriority {
         for(List<NewsModel> newsModelList : responses) maxClusterSize = Math.max(maxClusterSize, newsModelList.size());
         responses.sort(new Sort());
     }
+    public static Long getDateOfNewsPublish(Long pubTime){
+        return (System.currentTimeMillis() - pubTime)/(24 * 60 * 60 * 1000);
+    }
+
+    public static double getDayScore(Long day){
+        if(day > 5) return 0L;
+        else return (double) (5 - day)/5;
+    }
+    //
+    public static double getNewsPublishDate(List<NewsModel> responses){
+        return (responses.stream().mapToDouble(response -> getDayScore(getDateOfNewsPublish(response.getTime()))).sum())/responses.size();
+    }
 }
+
+//    double clusterSize1 = (double) responseList1.size()/maxClusterSize;
+//    double clusterSize2 = (double) responseList2.size()/maxClusterSize;
+//    double allNewsScoresSum1 = getScoreOfNewsSources(responseList1)/responseList1.size() * Constant.maxNewsSourceScore;
+//    double allNewsScoresSum2 = getScoreOfNewsSources(responseList2)/responseList2.size() * Constant.maxNewsSourceScore;
+//    double allPubDateSum1 = getNewsPublishDate(responseList1);
+//    double allPubDateSum2 = getNewsPublishDate(responseList2);
+//
+//    double score1 = clusterSize1*1.2 + allNewsScoresSum1*0.9 + allPubDateSum1*1.1;
+//    double score2 = clusterSize2*1.2 + allNewsScoresSum2*0.9 + allPubDateSum2*1.1;
+//            return Double.compare(score2, score1);
+//    public static Long getDateOfNewsPublish(Long pubTime){
+//        return (System.currentTimeMillis() - pubTime)/(24 * 60 * 60 * 1000);
+//}
+//
+//    public static double getDayScore(Long day){
+//        if(day > 5) return 0L;
+//        else return (double) (5 - day)/5;
+//    }
+////
+//    public static double getNewsPublishDate(List<NewsModel> responses){
+//        return (responses.stream().mapToDouble(response -> getDayScore(getDateOfNewsPublish(response.getTime()))).sum())/responses.size();
+//    }

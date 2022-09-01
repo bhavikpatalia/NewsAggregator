@@ -24,13 +24,10 @@ public class WriteDataIntoMySql {
     @Autowired
     ClusteredNewsServiceImpl clusteredNewsService;
 
-    @Autowired
-    NewsTimeServiceImpl newsTimeService;
 
     public void writeParsedNewsIntoDB(List<Response> responses, NewsCategory newsCategory){
         int initial = Constant.countWriteNewsDB.get();
         newsService.saveAll(responses, newsCategory);
-        newsTimeService.saveAll(initial, Constant.countWriteNewsDB.get());
 
     }
 

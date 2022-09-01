@@ -21,5 +21,5 @@ public interface NewsService {
 
     List<NewsModel> findAllByNewsCategory(NewsCategory newsCategory);
 
-    void deleteAllByNewsIds(List<Integer> newsIds);
+    void deleteAllByNewsIds(Integer val);
 }

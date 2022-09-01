@@ -14,11 +14,13 @@ import java.util.List;
 public interface ClusteredNewsRepository extends JpaRepository<ClusteredNews, Integer> {
 
      ClusteredNews findAllById(Integer id);
-     List<ClusteredNews> findAllByNewsCategory(NewsCategory newsCategory);
+
+     @Query("select cn from ClusteredNews as cn where cn.newsCategory = ?1 and cn.newsId >= ?2 and cn.newsId < ?3")
+     List<ClusteredNews> findAllByNewsCategoryAndNewsId(NewsCategory newsCategory, Integer min, Integer max);
 
      @Modifying
-     @Query("delete from ClusteredNews as cn where cn.newsId in :list")
-     void deleteAllByNewsIds(@Param("list") List<Integer> list);
+     @Query("delete from ClusteredNews as cn where cn.newsId <= ?1")
+     void deleteAllByNewsIds(Integer min);
 
      List<ClusteredNews> findAllByClusterRankAndNewsCategory(Integer clusterRank, NewsCategory newsCategory);
 }

@@ -35,12 +35,11 @@ public class ClusteredNewsServiceImpl implements ClusteredNewsService{
     }
 
     public List<ClusteredNews> findAllByNewsCategory(NewsCategory newsCategory){
-        return clusteredNewsRepository.findAllByNewsCategory(newsCategory);
+        return clusteredNewsRepository.findAllByNewsCategoryAndNewsId(newsCategory, Constant.minNewsIdForApi, Constant.maxNewsIdForApi);
     }
 
     @Transactional
-    public void deleteByNewsIds(List<Integer> newsIds){
-        if(newsIds.isEmpty()) return;
-        clusteredNewsRepository.deleteAllByNewsIds(newsIds);
+    public void deleteByNewsIds(Integer val){
+        clusteredNewsRepository.deleteAllByNewsIds(val);
     }
 }

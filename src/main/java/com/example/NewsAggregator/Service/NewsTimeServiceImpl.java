@@ -21,10 +21,11 @@ public class NewsTimeServiceImpl implements NewsTimeService{
 
     @Override
     public void saveAll(Integer startingId, Integer lastId) {
+        Long curTime = System.currentTimeMillis();
         for(int i = startingId; i < lastId; i++){
             newsTimeRepository.save(NewsTime.builder().id(Constant.count.getAndIncrement())
                     .newsId(i)
-                    .systemTime(System.currentTimeMillis())
+                    .systemTime(curTime)
                     .build());
         }
     }
@@ -34,9 +35,7 @@ public class NewsTimeServiceImpl implements NewsTimeService{
     }
 
     @Transactional
-    public void deleteAllByNewsIds(List<Integer> newsIds){
-        if(newsIds.isEmpty())
-            return;
-        newsTimeRepository.deleteAllByNewsIds(newsIds);
+    public void deleteAllByNewsIds(Integer val){
+        newsTimeRepository.deleteAllByNewsIds(val);
     }
 }

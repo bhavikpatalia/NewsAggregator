@@ -5,5 +5,5 @@ import java.util.List;
 public interface NewsTimeService {
     void saveAll(Integer startingId, Integer lastId);
 
-    void deleteAllByNewsIds(List<Integer>newsIds);
+    void deleteAllByNewsIds(Integer val);
 }

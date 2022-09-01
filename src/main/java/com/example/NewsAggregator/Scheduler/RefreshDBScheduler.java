@@ -1,6 +1,6 @@
 package com.example.NewsAggregator.Scheduler;
 
-import com.example.NewsAggregator.Model.NewsTimeModel;
+import com.example.NewsAggregator.Constants.Constant;
 import com.example.NewsAggregator.Service.ClusteredNewsServiceImpl;
 import com.example.NewsAggregator.Service.NewsServiceImpl;
 import com.example.NewsAggregator.Service.NewsTimeServiceImpl;
@@ -24,20 +24,17 @@ public class RefreshDBScheduler {
     @Autowired
     ClusteredNewsServiceImpl clusteredNewsService;
 
-    @Scheduled(fixedRate = 40000L, initialDelay = 0L)
+    @Scheduled(fixedRate = 40000L, initialDelay = 60000L)
     public void refreshDB(){
 
-        log.info("Fetching newsIds having retrieval time less then 2 min ago");
-        List<Integer> newsIds = newsTimeService.fetchAllNewsIds();
-
         log.info("Deleting rows from News Table");
-        newsService.deleteAllByNewsIds(newsIds);
+        newsService.deleteAllByNewsIds(Constant.minNewsIdForApi - 1);
 
         log.info("Deleting rows from ClusteredNews Table");
-        clusteredNewsService.deleteByNewsIds(newsIds);
+        clusteredNewsService.deleteByNewsIds(Constant.minNewsIdForApi - 1);
 
         log.info("Deleting rows from NewsTime Table");
-        newsTimeService.deleteAllByNewsIds(newsIds);
+        newsTimeService.deleteAllByNewsIds(Constant.minNewsIdForApi - 1);
 
     }
 }

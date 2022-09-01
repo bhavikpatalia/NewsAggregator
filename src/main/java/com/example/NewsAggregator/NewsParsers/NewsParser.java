@@ -18,6 +18,10 @@ import java.util.List;
 @Slf4j
 public class NewsParser {
 
+    public static boolean includeOrNot(Long pubTime){
+        return System.currentTimeMillis() - pubTime / (24 * 60 * 60 * 1000) < 10;
+    }
+
     public  static List<Response> getParsedNews(JSONArray jsonArray) throws ParseException {
 
         List<Response> news = new ArrayList<>();
@@ -33,7 +37,9 @@ public class NewsParser {
             if(object.has("description")) response.setDescription(object.get("description").toString().replaceAll("<[^>]*>", ""));
             if(object.has("pubDate")){
                 String time = object.get("pubDate").toString();
-                response.setPubTime(getTime(time));
+                Long longTime = getTime(time);
+                if(includeOrNot(longTime)) continue;
+                response.setPubTime(longTime);
             }
             if(object.has("link")) response.setLink(object.get("link").toString());
             addImageURL(response, object);

@@ -16,6 +16,6 @@ public interface NewsTimeRepository extends JpaRepository<NewsTime, Integer> {
     List<NewsTime> getAllNewsLessThen2Min(Long curTime);
 
     @Modifying
-    @Query("delete from NewsTime as nt where nt.newsId in :newsIds")
-    void deleteAllByNewsIds(@Param("newsIds") List<Integer> newsIds);
+    @Query("delete from NewsTime as nt where nt.newsId <= ?1")
+    void deleteAllByNewsIds(Integer min);
 }

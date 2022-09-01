@@ -71,7 +71,7 @@ public class NewsServiceImpl  implements NewsService{
 
     @Override
     public List<NewsModel> findAllByNewsCategory(NewsCategory newsCategory) {
-        return newsRepository.findAllByNewsCategory(newsCategory).stream().map(news -> (
+        return newsRepository.findAllByNewsCategoryAndNewsId(newsCategory, Constant.minNewsIdForClr, Constant.maxNewsIdForClr).stream().map(news -> (
                 NewsModel.builder().newsId(news.getNewsId())
                 .link(news.getLink())
                 .description(news.getDescription())
@@ -88,8 +88,7 @@ public class NewsServiceImpl  implements NewsService{
     }
 
     @Transactional
-    public void deleteAllByNewsIds(List<Integer> newsIds){
-        if(newsIds.isEmpty()) return;
-        newsRepository.deleteAllByNewsIds(newsIds);
+    public void deleteAllByNewsIds(Integer val){
+        newsRepository.deleteAllByNewsIds(val);
     }
 }

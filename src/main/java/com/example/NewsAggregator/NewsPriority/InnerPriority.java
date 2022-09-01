@@ -20,8 +20,13 @@ public class InnerPriority {
         return 0.0d;
     }
 
-    public static int getDateOfNewsPublish(Long pubTime){
-        return Integer.parseInt(new Date(pubTime).toString().split(" ")[2]);
+    public static Long getDateOfNewsPublish(Long pubTime){
+        return ((System.currentTimeMillis() - pubTime)/(60 * 60 * 1000));
+    }
+
+    public static double getDayScore(Long hour){
+        if(hour > 100) return 0L;
+        else return (double) (100 - hour)/100;
     }
 
     static class Sort implements Comparator<NewsModel> {
@@ -30,11 +35,11 @@ public class InnerPriority {
         public int compare(NewsModel response1, NewsModel response2) {
             double newsScore1 = getScoreOfNewsSource(response1.getLink())/Constant.maxNewsSourceScore;
             double newsScore2 = getScoreOfNewsSource(response2.getLink())/Constant.maxNewsSourceScore;
-            double date1 = getDateOfNewsPublish(response1.getTime())/Constant.maxNewsPubDate;
-            double date2 = getDateOfNewsPublish(response2.getTime())/Constant.maxNewsPubDate;
+            double hours1 = getDayScore(getDateOfNewsPublish(response1.getTime()));
+            double hours2 = getDayScore(getDateOfNewsPublish(response2.getTime()));
 
-            double score1 = newsScore1*1.5 + date1;
-            double score2 = newsScore2*1.5 + date2;
+            double score1 = newsScore1*0.5 + hours1*1.5;
+            double score2 = newsScore2*0.5 + hours2*1.5;
             return Double.compare(score2, score1);
         }
     }
