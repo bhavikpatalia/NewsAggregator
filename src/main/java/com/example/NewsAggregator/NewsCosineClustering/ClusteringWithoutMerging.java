@@ -1,5 +1,6 @@
 package com.example.NewsAggregator.NewsCosineClustering;
 
+import com.example.NewsAggregator.Model.NewsModel;
 import com.example.NewsAggregator.Responses.Response;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,9 +20,7 @@ public class ClusteringWithoutMerging {
     // Using StemmedWord Mapping file
     StemmedWords stemmedWords = new StemmedWords();
 
-    public List<List<Response>> clusteringWithoutMerging(String fileName) throws IOException {
-        List<Response> dataFromCSVFile = getDataFromCSVFile( fileName + ".csv");
-
+    public List<List<NewsModel>> clusteringWithoutMerging(List<NewsModel> newsModels) throws IOException {
         Map<Integer, Map<String, Integer>> wordToCountMapping = new HashMap<>();
 
         stopWords.generateStopWordsRegex();
@@ -30,8 +29,8 @@ public class ClusteringWithoutMerging {
         Map<String, Integer> globalFreq  = new HashMap<>();
         int count = 1;
         Set<Integer> differentGrps = new HashSet<>();
-        for(Response response : dataFromCSVFile){
-            wordToCountMapping.put(count, getStringToCountMapping(response, globalFreq));
+        for(NewsModel newsModel : newsModels){
+            wordToCountMapping.put(count, getStringToCountMapping(newsModel, globalFreq));
             differentGrps.add(count);
             count++;
         }
@@ -44,7 +43,7 @@ public class ClusteringWithoutMerging {
                 itf.put(key, 0.0d);
             } else
             {
-                Double it = log2(dataFromCSVFile.size()*1.0/val);
+                Double it = log2(newsModels.size()*1.0/val);
                 itf.put(key, it);
             }
         }
@@ -60,7 +59,8 @@ public class ClusteringWithoutMerging {
 
         Map<Integer, Set<Integer>> cluster = new HashMap<>();
         for(int i = 1; i < 10; i++){
-            findSimilarity(differentGrps.stream().toList(), score, cluster);
+            List<Integer> grps = differentGrps.stream().toList();
+            findSimilarity(grps, score, cluster);
         }
 
         List<List<Integer>> grps = new ArrayList<>();
@@ -73,7 +73,7 @@ public class ClusteringWithoutMerging {
             }
         }
 
-        return getSimilarNews(dataFromCSVFile, grps, count);
+        return getSimilarNews(newsModels, grps, count);
     }
 
     private  Double log2(double v) {
@@ -86,7 +86,7 @@ public class ClusteringWithoutMerging {
             for(int j = i+1; j < grps.size(); j++){
 
                 Double cosineSimilarity = CosineSimilarity.cosineSimilarity(wordToCountMapping.get(grps.get(i)), wordToCountMapping.get(grps.get(j)));
-                if(cosineSimilarity >= 0.60){
+                if(cosineSimilarity >= 0.40){
                     if(cluster.containsKey(grps.get(i))){
                         Set<Integer> list = cluster.get(grps.get(i));
                         list.add(grps.get(j));
@@ -100,19 +100,20 @@ public class ClusteringWithoutMerging {
         }
     }
 
-    public  Map<String, Integer> getStringToCountMapping(Response response, Map<String, Integer> globalFreq){
+    public  Map<String, Integer> getStringToCountMapping(NewsModel newsModel, Map<String, Integer> globalFreq){
         Map<String, Integer> vector
                 = new HashMap<>();
 
-        String[] newStr = ((response.getTitle() + response.getTitle() + response.getDescription())
+        String[] newStr = ((newsModel.getTitle() + newsModel.getTitle() + newsModel.getDescription())
                 .toLowerCase().replaceAll(stopWords.getStopWordsRegex(), ""))
                 .replaceAll("\\p{Punct}", "")
                 .split("\\s+");
 
+
         Set<String> included = new HashSet<>();
         for (String str : newStr) {
-          //String rootWord = stemmer.getRootWord(str); // Using Stemmer Class (Porter Stemming Algo)
-            String rootWord = stemmedWords.getRootWord(str); // Using StemmedWord File
+            String rootWord = stemmer.getRootWord(str); // using Stemmer Class (Porter Stemming Algo)
+//            String rootWord = stemmedWords.getRootWord(str); // Using StemmedWord File
             if (vector.containsKey(rootWord)) vector.put(rootWord, vector.get(rootWord) + 1);
             else vector.put(rootWord, 1);
             if(globalFreq.containsKey(rootWord) && !included.contains(rootWord)) globalFreq.put(rootWord, globalFreq.get(rootWord) + 1);
@@ -135,24 +136,24 @@ public class ClusteringWithoutMerging {
         }
     }
 
-    private List<List<Response>> getSimilarNews(List<Response> dataFromCSVFile, List<List<Integer>> grps, int count) {
+    private List<List<NewsModel>> getSimilarNews(List<NewsModel> newsModels, List<List<Integer>> grps, int count) {
         Set<Integer> visited = new HashSet<>();
 
-        List<List<Response>> similarNews = new ArrayList<>();
+        List<List<NewsModel>> similarNews = new ArrayList<>();
 
         for (List<Integer> list : grps){
-            List<Response> responses = new ArrayList<>();
+            List<NewsModel> responses = new ArrayList<>();
             for(Integer integer : list){
                 visited.add(integer);
-                responses.add(dataFromCSVFile.get(integer-1));
+                responses.add(newsModels.get(integer-1));
             }
             similarNews.add(responses);
         }
 
         for(int i = 1; i < count; i++){
             if(!visited.contains(i)){
-                List<Response> responses = new ArrayList<>();
-                responses.add(dataFromCSVFile.get(i-1));
+                List<NewsModel> responses = new ArrayList<>();
+                responses.add(newsModels.get(i-1));
                 similarNews.add(responses);
             }
         }

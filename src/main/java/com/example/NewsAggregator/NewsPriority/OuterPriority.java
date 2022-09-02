@@ -12,6 +12,7 @@ import java.util.List;
 public class OuterPriority {
 
     static Integer maxClusterSize = 1;
+    static Integer zero = 0;
     public static double getScoreOfNewsSource(String newsLink){
 
         if(newsLink.contains(NewsPrefix.HINDUSTANTIMES.getAction())) return Constant.hindustanTimes;
@@ -48,15 +49,15 @@ public class OuterPriority {
 //            double allPubDateSum1 = getNewsPublishDate(responseList1)/Constant.maxNewsPubDate;
 //            double allPubDateSum2 = getNewsPublishDate(responseList2)/Constant.maxNewsPubDate;
 
-            double clusterSize1 = (double) responseList1.size()/maxClusterSize;
-            double clusterSize2 = (double) responseList2.size()/maxClusterSize;
+            double clusterSize1 =  Math.log(responseList1.size())/Math.log(maxClusterSize);
+            double clusterSize2 =  Math.log(responseList2.size())/Math.log(maxClusterSize);
             double allNewsScoresSum1 = getScoreOfNewsSources(responseList1)/(responseList1.size() * Constant.maxNewsSourceScore);
             double allNewsScoresSum2 = getScoreOfNewsSources(responseList2)/(responseList2.size() * Constant.maxNewsSourceScore);
             double allPubDateSum1 = getNewsPublishDate(responseList1);
             double allPubDateSum2 = getNewsPublishDate(responseList2);
 
-            double score1 = clusterSize1*1.5 + allNewsScoresSum1*0.9 + allPubDateSum1*1.3;
-            double score2 = clusterSize2*1.5 + allNewsScoresSum2*0.9 + allPubDateSum2*1.3;
+            double score1 = clusterSize1*1.5 + allNewsScoresSum1*0.2 + allPubDateSum1;
+            double score2 = clusterSize2*1.5 + allNewsScoresSum2*0.2 + allPubDateSum2;
             return Double.compare(score2, score1);
         }
     }
